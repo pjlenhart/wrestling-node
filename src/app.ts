@@ -4,6 +4,7 @@ import wrestlerRouter from './routes/wrestlerRouter';
 import matchRouter from './routes/matchRouter';
 import schoolRouter from './routes/schoolRouter';
 import statsRouter from './routes/statisticsRouter';
+import widgetRouter from './routes/widgetRouter';
 const cors = require('cors');
 const express = require('express');
 const cookieParser = require('cookie-parser');
@@ -33,5 +34,6 @@ app.use(`${prePath}/wrestlers`, wrestlerRouter);
 app.use(`${prePath}/matches`, matchRouter);
 app.use(`${prePath}/schools`, schoolRouter);
 app.use(`${prePath}/statistics`, statsRouter);
+app.use(`${prePath}/announcements`, widgetRouter);
 
 app.listen(8001, () => console.log('listening on 8001'));
