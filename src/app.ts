@@ -34,6 +34,6 @@ app.use(`${prePath}/wrestlers`, wrestlerRouter);
 app.use(`${prePath}/matches`, matchRouter);
 app.use(`${prePath}/schools`, schoolRouter);
 app.use(`${prePath}/statistics`, statsRouter);
-app.use(`${prePath}/announcements`, widgetRouter);
+app.use(`${prePath}/info`, widgetRouter);
 
 app.listen(8001, () => console.log('listening on 8001'));
