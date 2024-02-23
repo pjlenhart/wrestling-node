@@ -9,6 +9,12 @@ const schoolRouter = express.Router();
 schoolRouter.get('/', async (req: Request, res: Response) => {
     let query = 'SELECT * FROM wrestlingdb.wrestling_school';
     connection.getConnection((err: QueryError, conn: PoolConnection) => {
+        if (err) {
+            res.status(500).send({
+                message: err.message,
+                data: null,
+            });
+        }
         conn.query(query, (err, resultSet: any) => {
             conn.release();
             if (err) {
@@ -29,6 +35,12 @@ schoolRouter.get('/', async (req: Request, res: Response) => {
 schoolRouter.get('/:id', async (req: Request, res: Response) => {
     let query = `SELECT * FROM wrestlingdb.wrestling_school s WHERE s.school_id=${req.params.id}`;
     connection.getConnection((err: QueryError, conn: PoolConnection) => {
+        if (err) {
+            res.status(500).send({
+                message: err.message,
+                data: null,
+            });
+        }
         conn.query(query, (err, resultSet: any) => {
             conn.release();
             if (err) {

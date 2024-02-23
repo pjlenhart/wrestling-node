@@ -9,6 +9,12 @@ const widgetRouter = express.Router();
 widgetRouter.get('/announcements', async (req: Request, res: Response) => {
     let query = 'SELECT * FROM wrestlingdb.wrestling_announcement';
     connection.getConnection((err: QueryError, conn: PoolConnection) => {
+        if (err) {
+            res.status(500).send({
+                message: err.message,
+                data: null,
+            });
+        }
         conn.query(query, (err, resultSet: any) => {
             conn.release();
             if (err) {

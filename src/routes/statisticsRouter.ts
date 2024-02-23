@@ -9,6 +9,12 @@ const statsRouter = express.Router();
 statsRouter.get('/career-stats', async (req: Request, res: Response) => {
     let query = 'SELECT * FROM wrestlingdb.career_stats';
     connection.getConnection((err: QueryError, conn: PoolConnection) => {
+        if (err) {
+            res.status(500).send({
+                message: err.message,
+                data: null,
+            });
+        }
         conn.query(query, (err, resultSet: any) => {
             conn.release();
             if (err) {
@@ -29,6 +35,12 @@ statsRouter.get('/career-stats', async (req: Request, res: Response) => {
 statsRouter.get('/career-stats/:id', async (req: Request, res: Response) => {
     let query = `SELECT * FROM wrestlingdb.career_stats s WHERE s.wrestler_id=${req.params.id}`;
     connection.getConnection((err: QueryError, conn: PoolConnection) => {
+        if (err) {
+            res.status(500).send({
+                message: err.message,
+                data: null,
+            });
+        }
         conn.query(query, (err, resultSet: any) => {
             conn.release();
             if (err) {

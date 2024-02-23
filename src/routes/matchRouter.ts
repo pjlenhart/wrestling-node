@@ -68,6 +68,12 @@ matchRouter.get('/regular-season', async (req: Request, res: Response) => {
                             m.team_match_id <> 24
                 `;
     connection.getConnection((err: QueryError, conn: PoolConnection) => {
+        if (err) {
+            res.status(500).send({
+                message: err.message,
+                data: null,
+            });
+        }
         conn.query(query, (err, resultSet: any) => {
             conn.release();
             if (err) {
@@ -149,6 +155,12 @@ matchRouter.get('/regular-season/:id', async (req: Request, res: Response) => {
                     AND m.team_match_id <> 24 
             `;
     connection.getConnection((err: QueryError, conn: PoolConnection) => {
+        if (err) {
+            res.status(500).send({
+                message: err.message,
+                data: null,
+            });
+        }
         conn.query(query, (err, resultSet: any) => {
             conn.release();
             if (err) {
@@ -209,6 +221,12 @@ matchRouter.get('/individual', async (req: Request, res: Response) => {
                     m.team_match_id = 24
             `;
     connection.getConnection((err: QueryError, conn: PoolConnection) => {
+        if (err) {
+            res.status(500).send({
+                message: err.message,
+                data: null,
+            });
+        }
         conn.query(query, (err, resultSet: any) => {
             conn.release();
             if (err) {
@@ -270,6 +288,12 @@ matchRouter.get('/individual/:id', async (req: Request, res: Response) => {
                     AND m.wrestler_id = ${req.params.id}
             `;
     connection.getConnection((err: QueryError, conn: PoolConnection) => {
+        if (err) {
+            res.status(500).send({
+                message: err.message,
+                data: null,
+            });
+        }
         conn.query(query, (err, resultSet: any) => {
             conn.release();
             if (err) {
