@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { connection } from '../database/mysql';
+import { connection, connection1 } from '../database/mysql';
 import { QueryError, PoolConnection } from 'mysql2';
 
 const express = require('express');
@@ -66,23 +66,10 @@ matchRouter.get('/regular-season', async (req: Request, res: Response) => {
                         
                         WHERE
                             m.team_match_id <> 24
-                `;
-    connection.getConnection((err: QueryError, conn: PoolConnection) => {
-        conn.query(query, (err, resultSet: any) => {
-            conn.release();
-            if (err) {
-                res.status(500).send({
-                    message: err.message,
-                    data: null,
-                });
-            } else {
-                res.status(200).send({
-                    message:
-                        'Successfully retrieved all regular season matches',
-                    data: resultSet,
-                });
-            }
-        });
+    `;
+    connection1.query(query, (err, results, fields) => {
+        if (err) res.status(500).send(err);
+        res.end(JSON.stringify(results));
     });
 });
 
@@ -147,22 +134,10 @@ matchRouter.get('/regular-season/:id', async (req: Request, res: Response) => {
                 WHERE
                     m.wrestler_id = ${req.params.id}
                     AND m.team_match_id <> 24 
-            `;
-    connection.getConnection((err: QueryError, conn: PoolConnection) => {
-        conn.query(query, (err, resultSet: any) => {
-            conn.release();
-            if (err) {
-                res.status(500).send({
-                    message: err.message,
-                    data: null,
-                });
-            } else {
-                res.status(200).send({
-                    message: `Successfully retrieved regular season matches for wrestler with id: ${req.params.id}`,
-                    data: resultSet,
-                });
-            }
-        });
+    `;
+    connection1.query(query, (err, results, fields) => {
+        if (err) res.status(500).send(err);
+        res.end(JSON.stringify(results));
     });
 });
 
@@ -208,21 +183,9 @@ matchRouter.get('/individual', async (req: Request, res: Response) => {
                 WHERE
                     m.team_match_id = 24
             `;
-    connection.getConnection((err: QueryError, conn: PoolConnection) => {
-        conn.query(query, (err, resultSet: any) => {
-            conn.release();
-            if (err) {
-                res.status(500).send({
-                    message: err.message,
-                    data: null,
-                });
-            } else {
-                res.status(200).send({
-                    message: `Successfully retrieved all individual matches`,
-                    data: resultSet,
-                });
-            }
-        });
+    connection1.query(query, (err, results, fields) => {
+        if (err) res.status(500).send(err);
+        res.end(JSON.stringify(results));
     });
 });
 
@@ -269,21 +232,9 @@ matchRouter.get('/individual/:id', async (req: Request, res: Response) => {
                     m.team_match_id = 24
                     AND m.wrestler_id = ${req.params.id}
             `;
-    connection.getConnection((err: QueryError, conn: PoolConnection) => {
-        conn.query(query, (err, resultSet: any) => {
-            conn.release();
-            if (err) {
-                res.status(500).send({
-                    message: err.message,
-                    data: null,
-                });
-            } else {
-                res.status(200).send({
-                    message: `Successfully retrieved all individual matches for wrestler id: ${req.params.id}`,
-                    data: resultSet,
-                });
-            }
-        });
+    connection1.query(query, (err, results, fields) => {
+        if (err) res.status(500).send(err);
+        res.end(JSON.stringify(results));
     });
 });
 
@@ -305,21 +256,9 @@ matchRouter.get('/team-matches', async (req: Request, res: Response) => {
         WHERE
             t.team_match_id <> 24
         `;
-    connection.getConnection((err: QueryError, conn: PoolConnection) => {
-        conn.query(query, (err, resultSet: any) => {
-            conn.release();
-            if (err) {
-                res.status(500).send({
-                    message: err.message,
-                    data: null,
-                });
-            } else {
-                res.status(200).send({
-                    message: 'Successfully retrieved all team matches',
-                    data: resultSet,
-                });
-            }
-        });
+    connection1.query(query, (err, results, fields) => {
+        if (err) res.status(500).send(err);
+        res.end(JSON.stringify(results));
     });
 });
 
@@ -342,21 +281,9 @@ matchRouter.get('/team-matches/:id', async (req: Request, res: Response) => {
             t.team_match_id <> 24
             AND t.team_match_id = ${req.params.id}
         `;
-    connection.getConnection((err: QueryError, conn: PoolConnection) => {
-        conn.query(query, (err, resultSet: any) => {
-            conn.release();
-            if (err) {
-                res.status(500).send({
-                    message: err.message,
-                    data: null,
-                });
-            } else {
-                res.status(200).send({
-                    message: `Successfully retrieved team match with id: ${req.params.id}`,
-                    data: resultSet,
-                });
-            }
-        });
+    connection1.query(query, (err, results, fields) => {
+        if (err) res.status(500).send(err);
+        res.end(JSON.stringify(results));
     });
 });
 

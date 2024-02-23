@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { connection } from '../database/mysql';
+import { connection, connection1 } from '../database/mysql';
 import { QueryError, PoolConnection } from 'mysql2';
 
 const express = require('express');
@@ -8,41 +8,17 @@ const schoolRouter = express.Router();
 
 schoolRouter.get('/', async (req: Request, res: Response) => {
     let query = 'SELECT * FROM wrestlingdb.wrestling_school';
-    connection.getConnection((err: QueryError, conn: PoolConnection) => {
-        conn.query(query, (err, resultSet: any) => {
-            conn.release();
-            if (err) {
-                res.status(500).send({
-                    message: err.message,
-                    data: null,
-                });
-            } else {
-                res.status(200).send({
-                    message: 'Successfully retrieved all schools',
-                    data: resultSet,
-                });
-            }
-        });
+    connection1.query(query, (err, results, fields) => {
+        if (err) res.status(500).send(err);
+        res.end(JSON.stringify(results));
     });
 });
 
 schoolRouter.get('/:id', async (req: Request, res: Response) => {
     let query = `SELECT * FROM wrestlingdb.wrestling_school s WHERE s.school_id=${req.params.id}`;
-    connection.getConnection((err: QueryError, conn: PoolConnection) => {
-        conn.query(query, (err, resultSet: any) => {
-            conn.release();
-            if (err) {
-                res.status(500).send({
-                    message: err.message,
-                    data: null,
-                });
-            } else {
-                res.status(200).send({
-                    message: `Successfully retrieved school with id: ${req.params.id}`,
-                    data: resultSet,
-                });
-            }
-        });
+    connection1.query(query, (err, results, fields) => {
+        if (err) res.status(500).send(err);
+        res.end(JSON.stringify(results));
     });
 });
 
