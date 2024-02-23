@@ -11,7 +11,7 @@ const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
 
 // load .env variables
-require('dotenv').config({ path: '../.env' });
+require('dotenv').config();
 
 const app = express();
 
