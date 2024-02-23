@@ -1,10 +1,13 @@
-import testMiddleware from './middleware/testMiddleware';
-import testRouter from './routes/testRouter';
-import wrestlerRouter from './routes/wrestlerRouter';
-import matchRouter from './routes/matchRouter';
-import schoolRouter from './routes/schoolRouter';
-import statsRouter from './routes/statisticsRouter';
-import widgetRouter from './routes/widgetRouter';
+const wrestlerRouter = require('./routes/wrestlerRouter');
+const matchRouter = require('./routes/matchRouter');
+const schoolRouter = require('./routes/schoolRouter');
+const statsRouter = require('./routes/statisticsRouter');
+const widgetRouter = require('./routes/widgetRouter');
+//import wrestlerRouter from './routes/wrestlerRouter';
+//import matchRouter from './routes/matchRouter';
+// import schoolRouter from './routes/schoolRouter';
+// import statsRouter from './routes/statisticsRouter';
+// import widgetRouter from './routes/widgetRouter';
 const cors = require('cors');
 const express = require('express');
 const cookieParser = require('cookie-parser');
@@ -26,10 +29,8 @@ app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 app.use(cookieParser());
 
 // custom middleware
-app.use(testMiddleware);
 
 const prePath = '/wrestling-api';
-app.use(`${prePath}/test`, testRouter);
 app.use(`${prePath}/wrestlers`, wrestlerRouter);
 app.use(`${prePath}/matches`, matchRouter);
 app.use(`${prePath}/schools`, schoolRouter);
