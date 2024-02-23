@@ -10,16 +10,19 @@ wrestlerRouter.get('/', async (req: Request, res: Response) => {
     connection.getConnection(
         (err: NodeJS.ErrnoException, conn: PoolConnection) => {
             if (err) throw err;
-            let query: string = 'SELECT * FROM wrestlingdb.wrestling_wrestler';
-            conn.query(query, (err: QueryError, resultSet: any) => {
-                if (err) throw err;
-                else {
-                    res.status(200).send({
-                        message: 'Successfully retrieved all wrestlers',
-                        data: resultSet,
-                    });
+            //let query: string = 'SELECT * FROM wrestlingdb.wrestling_wrestler';
+            conn.query(
+                'SELECT * FROM wrestlingdb.wrestling_wrestler',
+                (err: QueryError, resultSet: any) => {
+                    if (err) throw err;
+                    else {
+                        res.status(200).send({
+                            message: 'Successfully retrieved all wrestlers',
+                            data: resultSet,
+                        });
+                    }
                 }
-            });
+            );
             conn.release();
         }
     );
