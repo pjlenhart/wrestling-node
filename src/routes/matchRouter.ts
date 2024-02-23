@@ -68,20 +68,10 @@ matchRouter.get('/regular-season', async (req: Request, res: Response) => {
                             m.team_match_id <> 24
                 `;
     connection.getConnection((err: QueryError, conn: PoolConnection) => {
-        if (err) {
-            res.status(500).send({
-                message: err.message,
-                data: null,
-            });
-        }
+        if (err) throw err;
         conn.query(query, (err, resultSet: any) => {
-            conn.release();
-            if (err) {
-                res.status(500).send({
-                    message: err.message,
-                    data: null,
-                });
-            } else {
+            if (err) throw err;
+            else {
                 res.status(200).send({
                     message:
                         'Successfully retrieved all regular season matches',
@@ -89,6 +79,7 @@ matchRouter.get('/regular-season', async (req: Request, res: Response) => {
                 });
             }
         });
+        conn.release();
     });
 });
 
@@ -155,26 +146,17 @@ matchRouter.get('/regular-season/:id', async (req: Request, res: Response) => {
                     AND m.team_match_id <> 24 
             `;
     connection.getConnection((err: QueryError, conn: PoolConnection) => {
-        if (err) {
-            res.status(500).send({
-                message: err.message,
-                data: null,
-            });
-        }
+        if (err) throw err;
         conn.query(query, (err, resultSet: any) => {
-            conn.release();
-            if (err) {
-                res.status(500).send({
-                    message: err.message,
-                    data: null,
-                });
-            } else {
+            if (err) throw err;
+            else {
                 res.status(200).send({
                     message: `Successfully retrieved regular season matches for wrestler with id: ${req.params.id}`,
                     data: resultSet,
                 });
             }
         });
+        conn.release();
     });
 });
 
@@ -221,26 +203,17 @@ matchRouter.get('/individual', async (req: Request, res: Response) => {
                     m.team_match_id = 24
             `;
     connection.getConnection((err: QueryError, conn: PoolConnection) => {
-        if (err) {
-            res.status(500).send({
-                message: err.message,
-                data: null,
-            });
-        }
+        if (err) throw err;
         conn.query(query, (err, resultSet: any) => {
-            conn.release();
-            if (err) {
-                res.status(500).send({
-                    message: err.message,
-                    data: null,
-                });
-            } else {
+            if (err) throw err;
+            else {
                 res.status(200).send({
                     message: `Successfully retrieved all individual matches`,
                     data: resultSet,
                 });
             }
         });
+        conn.release();
     });
 });
 
@@ -288,26 +261,17 @@ matchRouter.get('/individual/:id', async (req: Request, res: Response) => {
                     AND m.wrestler_id = ${req.params.id}
             `;
     connection.getConnection((err: QueryError, conn: PoolConnection) => {
-        if (err) {
-            res.status(500).send({
-                message: err.message,
-                data: null,
-            });
-        }
+        if (err) throw err;
         conn.query(query, (err, resultSet: any) => {
-            conn.release();
-            if (err) {
-                res.status(500).send({
-                    message: err.message,
-                    data: null,
-                });
-            } else {
+            if (err) throw err;
+            else {
                 res.status(200).send({
                     message: `Successfully retrieved all individual matches for wrestler id: ${req.params.id}`,
                     data: resultSet,
                 });
             }
         });
+        conn.release();
     });
 });
 
@@ -330,20 +294,17 @@ matchRouter.get('/team-matches', async (req: Request, res: Response) => {
             t.team_match_id <> 24
         `;
     connection.getConnection((err: QueryError, conn: PoolConnection) => {
+        if (err) throw err;
         conn.query(query, (err, resultSet: any) => {
-            conn.release();
-            if (err) {
-                res.status(500).send({
-                    message: err.message,
-                    data: null,
-                });
-            } else {
+            if (err) throw err;
+            else {
                 res.status(200).send({
                     message: 'Successfully retrieved all team matches',
                     data: resultSet,
                 });
             }
         });
+        conn.release();
     });
 });
 
@@ -367,20 +328,17 @@ matchRouter.get('/team-matches/:id', async (req: Request, res: Response) => {
             AND t.team_match_id = ${req.params.id}
         `;
     connection.getConnection((err: QueryError, conn: PoolConnection) => {
+        if (err) throw err;
         conn.query(query, (err, resultSet: any) => {
-            conn.release();
-            if (err) {
-                res.status(500).send({
-                    message: err.message,
-                    data: null,
-                });
-            } else {
+            if (err) throw err;
+            else {
                 res.status(200).send({
                     message: `Successfully retrieved team match with id: ${req.params.id}`,
                     data: resultSet,
                 });
             }
         });
+        conn.release();
     });
 });
 

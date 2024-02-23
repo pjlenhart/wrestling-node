@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { connection } from '../database/mysql';
 import { QueryError, PoolConnection } from 'mysql2';
+import { isExternalModuleReference } from 'typescript';
 
 const express = require('express');
 
@@ -10,14 +11,8 @@ wrestlerRouter.get('/', async (req: Request, res: Response) => {
     let query = 'SELECT * FROM wrestlingdb.wrestling_wrestler';
     connection.getConnection(
         (err: NodeJS.ErrnoException, conn: PoolConnection) => {
-            if (err) {
-                res.status(500).send({
-                    message: err.message,
-                    data: null,
-                });
-            }
+            if (err) throw err;
             conn.query(query, (err: QueryError, resultSet: any) => {
-                conn.release();
                 if (err) {
                     res.status(500).send({
                         message: err.message,
@@ -30,6 +25,7 @@ wrestlerRouter.get('/', async (req: Request, res: Response) => {
                     });
                 }
             });
+            conn.release();
         }
     );
 });
@@ -37,14 +33,8 @@ wrestlerRouter.get('/', async (req: Request, res: Response) => {
 wrestlerRouter.get('/:id', async (req: Request, res: Response) => {
     let query = `SELECT * FROM wrestlingdb.wrestling_wrestler w WHERE w.wrestler_id=${req.params.id}`;
     connection.getConnection((err: QueryError, conn: PoolConnection) => {
-        if (err) {
-            res.status(500).send({
-                message: err.message,
-                data: null,
-            });
-        }
+        if (err) throw err;
         conn.query(query, (err, resultSet: any) => {
-            conn.release();
             if (err) {
                 res.status(500).send({
                     message: err.message,
@@ -57,6 +47,7 @@ wrestlerRouter.get('/:id', async (req: Request, res: Response) => {
                 });
             }
         });
+        conn.release();
     });
 });
 
