@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
-import { connection, connection1 } from '../database/mysql';
-import { QueryError, PoolConnection } from 'mysql2';
+import { connection1 } from '../database/mysql';
 
 const express = require('express');
 

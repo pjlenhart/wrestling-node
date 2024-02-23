@@ -15,11 +15,3 @@ export const connection1 = mysql.createConnection({
     database: config.mysql.database,
     port: 3306,
 });
-
-export const connection = mysql.createPool({
-    user: config.mysql.user,
-    password: config.mysql.pass,
-    host: config.mysql.host,
-    database: config.mysql.database,
-    port: 3306,
-});
