@@ -1,5 +1,5 @@
 import config from './config';
-import { createPool } from 'mysql2';
+import mysql from 'mysql2';
 
 // const params = {
 //   user: config.mysql.user,
@@ -8,7 +8,7 @@ import { createPool } from 'mysql2';
 //   database: config.mysql.database,
 // };
 
-export const connection = createPool({
+export const connection1 = mysql.createConnection({
     user: config.mysql.user,
     password: config.mysql.pass,
     host: config.mysql.host,
