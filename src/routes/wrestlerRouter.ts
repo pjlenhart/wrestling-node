@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 import { connection } from '../database/mysql';
 import { QueryError, PoolConnection } from 'mysql2';
-import { isExternalModuleReference } from 'typescript';
 
 const express = require('express');
 
