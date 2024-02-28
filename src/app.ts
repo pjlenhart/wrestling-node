@@ -12,7 +12,7 @@ const morgan = require('morgan');
 const path = require('path');
 
 // load .env variables
-require('dotenv').config({ path: '../../../.env' });
+require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 
 const app = express();
 
