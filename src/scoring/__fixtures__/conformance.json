@@ -1,0 +1,1812 @@
+{
+  "generatedFrom": "wrestlingdb-node src/scoring",
+  "note": "Regenerate with `npm run conformance:generate`. Both engines must reproduce these exactly.",
+  "cases": [
+    {
+      "name": "decision decided on points",
+      "sheet": {
+        "matchDate": "2026-01-08",
+        "opponentSchool": "Conformance High",
+        "venue": "Home",
+        "bouts": [
+          {
+            "weight": 138,
+            "wrestler": "A",
+            "opponent": "B",
+            "status": "Final",
+            "events": [
+              {
+                "side": "ours",
+                "period": "1",
+                "token": "T3"
+              },
+              {
+                "side": "ours",
+                "period": "2",
+                "token": "E1"
+              },
+              {
+                "side": "theirs",
+                "period": "2",
+                "token": "T3"
+              }
+            ]
+          }
+        ]
+      },
+      "expected": {
+        "ourScore": 3,
+        "opponentScore": 0,
+        "decidedCount": 1,
+        "errors": 0,
+        "warnings": 0,
+        "insertable": [
+          138
+        ],
+        "bouts": [
+          {
+            "weight": 138,
+            "method": "Minor Decision",
+            "period": "2nd",
+            "result": "Win",
+            "teamPointsFor": 3,
+            "teamPointsAgainst": 0,
+            "pointMargin": 1,
+            "weForfeited": false,
+            "ours": {
+              "takedowns": 1,
+              "reversals": 0,
+              "escapes": 1,
+              "nearfall": 0,
+              "penalties": 0,
+              "takedownPoints": 3,
+              "reversalPoints": 0,
+              "escapePoints": 1,
+              "nearfallPoints": 0,
+              "penaltyPoints": 0
+            },
+            "theirs": {
+              "takedowns": 1,
+              "reversals": 0,
+              "escapes": 0,
+              "nearfall": 0,
+              "penalties": 0,
+              "takedownPoints": 3,
+              "reversalPoints": 0,
+              "escapePoints": 0,
+              "nearfallPoints": 0,
+              "penaltyPoints": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "major decision at exactly eight",
+      "sheet": {
+        "matchDate": "2026-01-08",
+        "opponentSchool": "Conformance High",
+        "venue": "Home",
+        "bouts": [
+          {
+            "weight": 165,
+            "wrestler": "A",
+            "opponent": "B",
+            "status": "Final",
+            "events": [
+              {
+                "side": "ours",
+                "period": "1",
+                "token": "T3"
+              },
+              {
+                "side": "ours",
+                "period": "1",
+                "token": "T3"
+              },
+              {
+                "side": "ours",
+                "period": "2",
+                "token": "N2"
+              }
+            ]
+          }
+        ]
+      },
+      "expected": {
+        "ourScore": 4,
+        "opponentScore": 0,
+        "decidedCount": 1,
+        "errors": 0,
+        "warnings": 0,
+        "insertable": [
+          165
+        ],
+        "bouts": [
+          {
+            "weight": 165,
+            "method": "Major Decision",
+            "period": "2nd",
+            "result": "Win",
+            "teamPointsFor": 4,
+            "teamPointsAgainst": 0,
+            "pointMargin": 8,
+            "weForfeited": false,
+            "ours": {
+              "takedowns": 2,
+              "reversals": 0,
+              "escapes": 0,
+              "nearfall": 1,
+              "penalties": 0,
+              "takedownPoints": 6,
+              "reversalPoints": 0,
+              "escapePoints": 0,
+              "nearfallPoints": 2,
+              "penaltyPoints": 0
+            },
+            "theirs": {
+              "takedowns": 0,
+              "reversals": 0,
+              "escapes": 0,
+              "nearfall": 0,
+              "penalties": 0,
+              "takedownPoints": 0,
+              "reversalPoints": 0,
+              "escapePoints": 0,
+              "nearfallPoints": 0,
+              "penaltyPoints": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "tech fall at exactly fifteen",
+      "sheet": {
+        "matchDate": "2026-01-08",
+        "opponentSchool": "Conformance High",
+        "venue": "Home",
+        "bouts": [
+          {
+            "weight": 175,
+            "wrestler": "A",
+            "opponent": "B",
+            "status": "Final",
+            "events": [
+              {
+                "side": "ours",
+                "period": "1",
+                "token": "T3"
+              },
+              {
+                "side": "ours",
+                "period": "1",
+                "token": "T3"
+              },
+              {
+                "side": "ours",
+                "period": "2",
+                "token": "T3"
+              },
+              {
+                "side": "ours",
+                "period": "2",
+                "token": "N3"
+              },
+              {
+                "side": "ours",
+                "period": "3",
+                "token": "N3"
+              }
+            ]
+          }
+        ]
+      },
+      "expected": {
+        "ourScore": 5,
+        "opponentScore": 0,
+        "decidedCount": 1,
+        "errors": 0,
+        "warnings": 0,
+        "insertable": [
+          175
+        ],
+        "bouts": [
+          {
+            "weight": 175,
+            "method": "Tech Fall",
+            "period": "3rd",
+            "result": "Win",
+            "teamPointsFor": 5,
+            "teamPointsAgainst": 0,
+            "pointMargin": 15,
+            "weForfeited": false,
+            "ours": {
+              "takedowns": 3,
+              "reversals": 0,
+              "escapes": 0,
+              "nearfall": 2,
+              "penalties": 0,
+              "takedownPoints": 9,
+              "reversalPoints": 0,
+              "escapePoints": 0,
+              "nearfallPoints": 6,
+              "penaltyPoints": 0
+            },
+            "theirs": {
+              "takedowns": 0,
+              "reversals": 0,
+              "escapes": 0,
+              "nearfall": 0,
+              "penalties": 0,
+              "takedownPoints": 0,
+              "reversalPoints": 0,
+              "escapePoints": 0,
+              "nearfallPoints": 0,
+              "penaltyPoints": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "pin beats a bigger score on the other line",
+      "sheet": {
+        "matchDate": "2026-01-08",
+        "opponentSchool": "Conformance High",
+        "venue": "Home",
+        "bouts": [
+          {
+            "weight": 150,
+            "wrestler": "A",
+            "opponent": "B",
+            "status": "Final",
+            "events": [
+              {
+                "side": "theirs",
+                "period": "1",
+                "token": "T3"
+              },
+              {
+                "side": "theirs",
+                "period": "1",
+                "token": "N4"
+              },
+              {
+                "side": "theirs",
+                "period": "2",
+                "token": "N4"
+              },
+              {
+                "side": "ours",
+                "period": "3",
+                "token": "Pin"
+              }
+            ]
+          }
+        ]
+      },
+      "expected": {
+        "ourScore": 6,
+        "opponentScore": 0,
+        "decidedCount": 1,
+        "errors": 0,
+        "warnings": 0,
+        "insertable": [
+          150
+        ],
+        "bouts": [
+          {
+            "weight": 150,
+            "method": "Pin",
+            "period": "3rd",
+            "result": "Win",
+            "teamPointsFor": 6,
+            "teamPointsAgainst": 0,
+            "pointMargin": -11,
+            "weForfeited": false,
+            "ours": {
+              "takedowns": 0,
+              "reversals": 0,
+              "escapes": 0,
+              "nearfall": 0,
+              "penalties": 0,
+              "takedownPoints": 0,
+              "reversalPoints": 0,
+              "escapePoints": 0,
+              "nearfallPoints": 0,
+              "penaltyPoints": 0
+            },
+            "theirs": {
+              "takedowns": 1,
+              "reversals": 0,
+              "escapes": 0,
+              "nearfall": 2,
+              "penalties": 0,
+              "takedownPoints": 3,
+              "reversalPoints": 0,
+              "escapePoints": 0,
+              "nearfallPoints": 8,
+              "penaltyPoints": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "pin against us",
+      "sheet": {
+        "matchDate": "2026-01-08",
+        "opponentSchool": "Conformance High",
+        "venue": "Home",
+        "bouts": [
+          {
+            "weight": 157,
+            "wrestler": "A",
+            "opponent": "B",
+            "status": "Final",
+            "events": [
+              {
+                "side": "ours",
+                "period": "1",
+                "token": "T3"
+              },
+              {
+                "side": "theirs",
+                "period": "2",
+                "token": "Pin"
+              }
+            ]
+          }
+        ]
+      },
+      "expected": {
+        "ourScore": 0,
+        "opponentScore": 6,
+        "decidedCount": 1,
+        "errors": 0,
+        "warnings": 0,
+        "insertable": [
+          157
+        ],
+        "bouts": [
+          {
+            "weight": 157,
+            "method": "Pin",
+            "period": "2nd",
+            "result": "Loss",
+            "teamPointsFor": 0,
+            "teamPointsAgainst": 6,
+            "pointMargin": 3,
+            "weForfeited": false,
+            "ours": {
+              "takedowns": 1,
+              "reversals": 0,
+              "escapes": 0,
+              "nearfall": 0,
+              "penalties": 0,
+              "takedownPoints": 3,
+              "reversalPoints": 0,
+              "escapePoints": 0,
+              "nearfallPoints": 0,
+              "penaltyPoints": 0
+            },
+            "theirs": {
+              "takedowns": 0,
+              "reversals": 0,
+              "escapes": 0,
+              "nearfall": 0,
+              "penalties": 0,
+              "takedownPoints": 0,
+              "reversalPoints": 0,
+              "escapePoints": 0,
+              "nearfallPoints": 0,
+              "penaltyPoints": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "period taken from the overtime column",
+      "sheet": {
+        "matchDate": "2026-01-08",
+        "opponentSchool": "Conformance High",
+        "venue": "Home",
+        "bouts": [
+          {
+            "weight": 120,
+            "wrestler": "A",
+            "opponent": "B",
+            "status": "Final",
+            "events": [
+              {
+                "side": "ours",
+                "period": "1",
+                "token": "E1"
+              },
+              {
+                "side": "theirs",
+                "period": "2",
+                "token": "E1"
+              },
+              {
+                "side": "ours",
+                "period": "SV",
+                "token": "T3"
+              }
+            ]
+          }
+        ]
+      },
+      "expected": {
+        "ourScore": 3,
+        "opponentScore": 0,
+        "decidedCount": 1,
+        "errors": 0,
+        "warnings": 0,
+        "insertable": [
+          120
+        ],
+        "bouts": [
+          {
+            "weight": 120,
+            "method": "Minor Decision",
+            "period": "OT1",
+            "result": "Win",
+            "teamPointsFor": 3,
+            "teamPointsAgainst": 0,
+            "pointMargin": 3,
+            "weForfeited": false,
+            "ours": {
+              "takedowns": 1,
+              "reversals": 0,
+              "escapes": 1,
+              "nearfall": 0,
+              "penalties": 0,
+              "takedownPoints": 3,
+              "reversalPoints": 0,
+              "escapePoints": 1,
+              "nearfallPoints": 0,
+              "penaltyPoints": 0
+            },
+            "theirs": {
+              "takedowns": 0,
+              "reversals": 0,
+              "escapes": 1,
+              "nearfall": 0,
+              "penalties": 0,
+              "takedownPoints": 0,
+              "reversalPoints": 0,
+              "escapePoints": 1,
+              "nearfallPoints": 0,
+              "penaltyPoints": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "every overtime column in turn",
+      "sheet": {
+        "matchDate": "2026-01-08",
+        "opponentSchool": "Conformance High",
+        "venue": "Home",
+        "bouts": [
+          {
+            "weight": 126,
+            "wrestler": "A",
+            "opponent": "B",
+            "status": "Final",
+            "events": [
+              {
+                "side": "ours",
+                "period": "TB1",
+                "token": "E1"
+              },
+              {
+                "side": "theirs",
+                "period": "TB2",
+                "token": "E1"
+              },
+              {
+                "side": "ours",
+                "period": "UTB",
+                "token": "R2"
+              }
+            ]
+          }
+        ]
+      },
+      "expected": {
+        "ourScore": 3,
+        "opponentScore": 0,
+        "decidedCount": 1,
+        "errors": 0,
+        "warnings": 0,
+        "insertable": [
+          126
+        ],
+        "bouts": [
+          {
+            "weight": 126,
+            "method": "Minor Decision",
+            "period": "OT4",
+            "result": "Win",
+            "teamPointsFor": 3,
+            "teamPointsAgainst": 0,
+            "pointMargin": 2,
+            "weForfeited": false,
+            "ours": {
+              "takedowns": 0,
+              "reversals": 1,
+              "escapes": 1,
+              "nearfall": 0,
+              "penalties": 0,
+              "takedownPoints": 0,
+              "reversalPoints": 2,
+              "escapePoints": 1,
+              "nearfallPoints": 0,
+              "penaltyPoints": 0
+            },
+            "theirs": {
+              "takedowns": 0,
+              "reversals": 0,
+              "escapes": 1,
+              "nearfall": 0,
+              "penalties": 0,
+              "takedownPoints": 0,
+              "reversalPoints": 0,
+              "escapePoints": 1,
+              "nearfallPoints": 0,
+              "penaltyPoints": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "reversals, penalties and every legal near fall",
+      "sheet": {
+        "matchDate": "2026-01-08",
+        "opponentSchool": "Conformance High",
+        "venue": "Home",
+        "bouts": [
+          {
+            "weight": 132,
+            "wrestler": "A",
+            "opponent": "B",
+            "status": "Final",
+            "events": [
+              {
+                "side": "ours",
+                "period": "1",
+                "token": "R2"
+              },
+              {
+                "side": "ours",
+                "period": "1",
+                "token": "N2"
+              },
+              {
+                "side": "ours",
+                "period": "2",
+                "token": "N3"
+              },
+              {
+                "side": "ours",
+                "period": "2",
+                "token": "N4"
+              },
+              {
+                "side": "ours",
+                "period": "3",
+                "token": "P1"
+              },
+              {
+                "side": "theirs",
+                "period": "3",
+                "token": "P2"
+              }
+            ]
+          }
+        ]
+      },
+      "expected": {
+        "ourScore": 4,
+        "opponentScore": 0,
+        "decidedCount": 1,
+        "errors": 0,
+        "warnings": 0,
+        "insertable": [
+          132
+        ],
+        "bouts": [
+          {
+            "weight": 132,
+            "method": "Major Decision",
+            "period": "3rd",
+            "result": "Win",
+            "teamPointsFor": 4,
+            "teamPointsAgainst": 0,
+            "pointMargin": 10,
+            "weForfeited": false,
+            "ours": {
+              "takedowns": 0,
+              "reversals": 1,
+              "escapes": 0,
+              "nearfall": 3,
+              "penalties": 1,
+              "takedownPoints": 0,
+              "reversalPoints": 2,
+              "escapePoints": 0,
+              "nearfallPoints": 9,
+              "penaltyPoints": 1
+            },
+            "theirs": {
+              "takedowns": 0,
+              "reversals": 0,
+              "escapes": 0,
+              "nearfall": 0,
+              "penalties": 1,
+              "takedownPoints": 0,
+              "reversalPoints": 0,
+              "escapePoints": 0,
+              "nearfallPoints": 0,
+              "penaltyPoints": 2
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "opponent forfeits",
+      "sheet": {
+        "matchDate": "2026-01-08",
+        "opponentSchool": "Conformance High",
+        "venue": "Home",
+        "bouts": [
+          {
+            "weight": 106,
+            "wrestler": "A",
+            "forfeit": "theirs",
+            "status": "Final",
+            "events": []
+          }
+        ]
+      },
+      "expected": {
+        "ourScore": 6,
+        "opponentScore": 0,
+        "decidedCount": 1,
+        "errors": 0,
+        "warnings": 0,
+        "insertable": [
+          106
+        ],
+        "bouts": [
+          {
+            "weight": 106,
+            "method": "Forfeit",
+            "period": "1st",
+            "result": "Win",
+            "teamPointsFor": 6,
+            "teamPointsAgainst": 0,
+            "pointMargin": 0,
+            "weForfeited": false,
+            "ours": {
+              "takedowns": 0,
+              "reversals": 0,
+              "escapes": 0,
+              "nearfall": 0,
+              "penalties": 0,
+              "takedownPoints": 0,
+              "reversalPoints": 0,
+              "escapePoints": 0,
+              "nearfallPoints": 0,
+              "penaltyPoints": 0
+            },
+            "theirs": {
+              "takedowns": 0,
+              "reversals": 0,
+              "escapes": 0,
+              "nearfall": 0,
+              "penalties": 0,
+              "takedownPoints": 0,
+              "reversalPoints": 0,
+              "escapePoints": 0,
+              "nearfallPoints": 0,
+              "penaltyPoints": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "we forfeit",
+      "sheet": {
+        "matchDate": "2026-01-08",
+        "opponentSchool": "Conformance High",
+        "venue": "Home",
+        "bouts": [
+          {
+            "weight": 113,
+            "opponent": "B",
+            "forfeit": "ours",
+            "status": "Final",
+            "events": []
+          }
+        ]
+      },
+      "expected": {
+        "ourScore": 0,
+        "opponentScore": 6,
+        "decidedCount": 1,
+        "errors": 0,
+        "warnings": 0,
+        "insertable": [],
+        "bouts": [
+          {
+            "weight": 113,
+            "method": "Forfeit",
+            "period": "1st",
+            "result": "Loss",
+            "teamPointsFor": 0,
+            "teamPointsAgainst": 6,
+            "pointMargin": 0,
+            "weForfeited": true,
+            "ours": {
+              "takedowns": 0,
+              "reversals": 0,
+              "escapes": 0,
+              "nearfall": 0,
+              "penalties": 0,
+              "takedownPoints": 0,
+              "reversalPoints": 0,
+              "escapePoints": 0,
+              "nearfallPoints": 0,
+              "penaltyPoints": 0
+            },
+            "theirs": {
+              "takedowns": 0,
+              "reversals": 0,
+              "escapes": 0,
+              "nearfall": 0,
+              "penalties": 0,
+              "takedownPoints": 0,
+              "reversalPoints": 0,
+              "escapePoints": 0,
+              "nearfallPoints": 0,
+              "penaltyPoints": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "we forfeit with nobody named on either line",
+      "sheet": {
+        "matchDate": "2026-01-08",
+        "opponentSchool": "Conformance High",
+        "venue": "Home",
+        "bouts": [
+          {
+            "weight": 150,
+            "forfeit": "ours",
+            "status": "Final",
+            "events": []
+          }
+        ]
+      },
+      "expected": {
+        "ourScore": 0,
+        "opponentScore": 6,
+        "decidedCount": 1,
+        "errors": 0,
+        "warnings": 0,
+        "insertable": [],
+        "bouts": [
+          {
+            "weight": 150,
+            "method": "Forfeit",
+            "period": "1st",
+            "result": "Loss",
+            "teamPointsFor": 0,
+            "teamPointsAgainst": 6,
+            "pointMargin": 0,
+            "weForfeited": true,
+            "ours": {
+              "takedowns": 0,
+              "reversals": 0,
+              "escapes": 0,
+              "nearfall": 0,
+              "penalties": 0,
+              "takedownPoints": 0,
+              "reversalPoints": 0,
+              "escapePoints": 0,
+              "nearfallPoints": 0,
+              "penaltyPoints": 0
+            },
+            "theirs": {
+              "takedowns": 0,
+              "reversals": 0,
+              "escapes": 0,
+              "nearfall": 0,
+              "penalties": 0,
+              "takedownPoints": 0,
+              "reversalPoints": 0,
+              "escapePoints": 0,
+              "nearfallPoints": 0,
+              "penaltyPoints": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "they forfeit with nobody named on either line",
+      "sheet": {
+        "matchDate": "2026-01-08",
+        "opponentSchool": "Conformance High",
+        "venue": "Home",
+        "bouts": [
+          {
+            "weight": 157,
+            "forfeit": "theirs",
+            "status": "Final",
+            "events": []
+          }
+        ]
+      },
+      "expected": {
+        "ourScore": 6,
+        "opponentScore": 0,
+        "decidedCount": 1,
+        "errors": 0,
+        "warnings": 0,
+        "insertable": [
+          157
+        ],
+        "bouts": [
+          {
+            "weight": 157,
+            "method": "Forfeit",
+            "period": "1st",
+            "result": "Win",
+            "teamPointsFor": 6,
+            "teamPointsAgainst": 0,
+            "pointMargin": 0,
+            "weForfeited": false,
+            "ours": {
+              "takedowns": 0,
+              "reversals": 0,
+              "escapes": 0,
+              "nearfall": 0,
+              "penalties": 0,
+              "takedownPoints": 0,
+              "reversalPoints": 0,
+              "escapePoints": 0,
+              "nearfallPoints": 0,
+              "penaltyPoints": 0
+            },
+            "theirs": {
+              "takedowns": 0,
+              "reversals": 0,
+              "escapes": 0,
+              "nearfall": 0,
+              "penalties": 0,
+              "takedownPoints": 0,
+              "reversalPoints": 0,
+              "escapePoints": 0,
+              "nearfallPoints": 0,
+              "penaltyPoints": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "double forfeit scores nothing",
+      "sheet": {
+        "matchDate": "2026-01-08",
+        "opponentSchool": "Conformance High",
+        "venue": "Home",
+        "bouts": [
+          {
+            "weight": 190,
+            "forfeit": "both",
+            "status": "Final",
+            "events": []
+          }
+        ]
+      },
+      "expected": {
+        "ourScore": 0,
+        "opponentScore": 0,
+        "decidedCount": 1,
+        "errors": 0,
+        "warnings": 0,
+        "insertable": [],
+        "bouts": [
+          {
+            "weight": 190,
+            "method": "Double Forfeit",
+            "period": "1st",
+            "result": null,
+            "teamPointsFor": 0,
+            "teamPointsAgainst": 0,
+            "pointMargin": 0,
+            "weForfeited": true,
+            "ours": {
+              "takedowns": 0,
+              "reversals": 0,
+              "escapes": 0,
+              "nearfall": 0,
+              "penalties": 0,
+              "takedownPoints": 0,
+              "reversalPoints": 0,
+              "escapePoints": 0,
+              "nearfallPoints": 0,
+              "penaltyPoints": 0
+            },
+            "theirs": {
+              "takedowns": 0,
+              "reversals": 0,
+              "escapes": 0,
+              "nearfall": 0,
+              "penalties": 0,
+              "takedownPoints": 0,
+              "reversalPoints": 0,
+              "escapePoints": 0,
+              "nearfallPoints": 0,
+              "penaltyPoints": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "disqualification with an explicit winner",
+      "sheet": {
+        "matchDate": "2026-01-08",
+        "opponentSchool": "Conformance High",
+        "venue": "Home",
+        "bouts": [
+          {
+            "weight": 215,
+            "wrestler": "A",
+            "opponent": "B",
+            "status": "Final",
+            "events": [
+              {
+                "side": "ours",
+                "period": "1",
+                "token": "T3"
+              }
+            ],
+            "winner": "theirs",
+            "method": "Disqualification"
+          }
+        ]
+      },
+      "expected": {
+        "ourScore": 0,
+        "opponentScore": 6,
+        "decidedCount": 1,
+        "errors": 0,
+        "warnings": 0,
+        "insertable": [
+          215
+        ],
+        "bouts": [
+          {
+            "weight": 215,
+            "method": "Disqualification",
+            "period": "1st",
+            "result": "Loss",
+            "teamPointsFor": 0,
+            "teamPointsAgainst": 6,
+            "pointMargin": 3,
+            "weForfeited": false,
+            "ours": {
+              "takedowns": 1,
+              "reversals": 0,
+              "escapes": 0,
+              "nearfall": 0,
+              "penalties": 0,
+              "takedownPoints": 3,
+              "reversalPoints": 0,
+              "escapePoints": 0,
+              "nearfallPoints": 0,
+              "penaltyPoints": 0
+            },
+            "theirs": {
+              "takedowns": 0,
+              "reversals": 0,
+              "escapes": 0,
+              "nearfall": 0,
+              "penalties": 0,
+              "takedownPoints": 0,
+              "reversalPoints": 0,
+              "escapePoints": 0,
+              "nearfallPoints": 0,
+              "penaltyPoints": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "default with an explicit winner",
+      "sheet": {
+        "matchDate": "2026-01-08",
+        "opponentSchool": "Conformance High",
+        "venue": "Home",
+        "bouts": [
+          {
+            "weight": 285,
+            "wrestler": "A",
+            "opponent": "B",
+            "status": "Final",
+            "events": [
+              {
+                "side": "ours",
+                "period": "2",
+                "token": "E1"
+              }
+            ],
+            "winner": "ours",
+            "method": "Default"
+          }
+        ]
+      },
+      "expected": {
+        "ourScore": 6,
+        "opponentScore": 0,
+        "decidedCount": 1,
+        "errors": 0,
+        "warnings": 0,
+        "insertable": [
+          285
+        ],
+        "bouts": [
+          {
+            "weight": 285,
+            "method": "Default",
+            "period": "2nd",
+            "result": "Win",
+            "teamPointsFor": 6,
+            "teamPointsAgainst": 0,
+            "pointMargin": 1,
+            "weForfeited": false,
+            "ours": {
+              "takedowns": 0,
+              "reversals": 0,
+              "escapes": 1,
+              "nearfall": 0,
+              "penalties": 0,
+              "takedownPoints": 0,
+              "reversalPoints": 0,
+              "escapePoints": 1,
+              "nearfallPoints": 0,
+              "penaltyPoints": 0
+            },
+            "theirs": {
+              "takedowns": 0,
+              "reversals": 0,
+              "escapes": 0,
+              "nearfall": 0,
+              "penalties": 0,
+              "takedownPoints": 0,
+              "reversalPoints": 0,
+              "escapePoints": 0,
+              "nearfallPoints": 0,
+              "penaltyPoints": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "a tie warns rather than guessing",
+      "sheet": {
+        "matchDate": "2026-01-08",
+        "opponentSchool": "Conformance High",
+        "venue": "Home",
+        "bouts": [
+          {
+            "weight": 144,
+            "wrestler": "A",
+            "opponent": "B",
+            "status": "Final",
+            "events": [
+              {
+                "side": "ours",
+                "period": "1",
+                "token": "T3"
+              },
+              {
+                "side": "theirs",
+                "period": "2",
+                "token": "T3"
+              }
+            ]
+          }
+        ]
+      },
+      "expected": {
+        "ourScore": 0,
+        "opponentScore": 3,
+        "decidedCount": 1,
+        "errors": 0,
+        "warnings": 1,
+        "insertable": [
+          144
+        ],
+        "bouts": [
+          {
+            "weight": 144,
+            "method": "Minor Decision",
+            "period": "2nd",
+            "result": "Loss",
+            "teamPointsFor": 0,
+            "teamPointsAgainst": 3,
+            "pointMargin": 0,
+            "weForfeited": false,
+            "ours": {
+              "takedowns": 1,
+              "reversals": 0,
+              "escapes": 0,
+              "nearfall": 0,
+              "penalties": 0,
+              "takedownPoints": 3,
+              "reversalPoints": 0,
+              "escapePoints": 0,
+              "nearfallPoints": 0,
+              "penaltyPoints": 0
+            },
+            "theirs": {
+              "takedowns": 1,
+              "reversals": 0,
+              "escapes": 0,
+              "nearfall": 0,
+              "penalties": 0,
+              "takedownPoints": 3,
+              "reversalPoints": 0,
+              "escapePoints": 0,
+              "nearfallPoints": 0,
+              "penaltyPoints": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "two-point takedown era",
+      "sheet": {
+        "matchDate": "2023-12-01",
+        "opponentSchool": "Conformance High",
+        "venue": "Home",
+        "bouts": [
+          {
+            "weight": 138,
+            "wrestler": "A",
+            "opponent": "B",
+            "status": "Final",
+            "events": [
+              {
+                "side": "ours",
+                "period": "1",
+                "token": "T2"
+              },
+              {
+                "side": "theirs",
+                "period": "2",
+                "token": "T2"
+              },
+              {
+                "side": "ours",
+                "period": "3",
+                "token": "E1"
+              }
+            ]
+          }
+        ]
+      },
+      "expected": {
+        "ourScore": 3,
+        "opponentScore": 0,
+        "decidedCount": 1,
+        "errors": 0,
+        "warnings": 0,
+        "insertable": [
+          138
+        ],
+        "bouts": [
+          {
+            "weight": 138,
+            "method": "Minor Decision",
+            "period": "3rd",
+            "result": "Win",
+            "teamPointsFor": 3,
+            "teamPointsAgainst": 0,
+            "pointMargin": 1,
+            "weForfeited": false,
+            "ours": {
+              "takedowns": 1,
+              "reversals": 0,
+              "escapes": 1,
+              "nearfall": 0,
+              "penalties": 0,
+              "takedownPoints": 2,
+              "reversalPoints": 0,
+              "escapePoints": 1,
+              "nearfallPoints": 0,
+              "penaltyPoints": 0
+            },
+            "theirs": {
+              "takedowns": 1,
+              "reversals": 0,
+              "escapes": 0,
+              "nearfall": 0,
+              "penalties": 0,
+              "takedownPoints": 2,
+              "reversalPoints": 0,
+              "escapePoints": 0,
+              "nearfallPoints": 0,
+              "penaltyPoints": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "a takedown written at the wrong value for the era warns",
+      "sheet": {
+        "matchDate": "2026-01-08",
+        "opponentSchool": "Conformance High",
+        "venue": "Home",
+        "bouts": [
+          {
+            "weight": 138,
+            "wrestler": "A",
+            "opponent": "B",
+            "status": "Final",
+            "events": [
+              {
+                "side": "ours",
+                "period": "1",
+                "token": "T2"
+              }
+            ]
+          }
+        ]
+      },
+      "expected": {
+        "ourScore": 3,
+        "opponentScore": 0,
+        "decidedCount": 1,
+        "errors": 0,
+        "warnings": 1,
+        "insertable": [
+          138
+        ],
+        "bouts": [
+          {
+            "weight": 138,
+            "method": "Minor Decision",
+            "period": "1st",
+            "result": "Win",
+            "teamPointsFor": 3,
+            "teamPointsAgainst": 0,
+            "pointMargin": 2,
+            "weForfeited": false,
+            "ours": {
+              "takedowns": 1,
+              "reversals": 0,
+              "escapes": 0,
+              "nearfall": 0,
+              "penalties": 0,
+              "takedownPoints": 2,
+              "reversalPoints": 0,
+              "escapePoints": 0,
+              "nearfallPoints": 0,
+              "penaltyPoints": 0
+            },
+            "theirs": {
+              "takedowns": 0,
+              "reversals": 0,
+              "escapes": 0,
+              "nearfall": 0,
+              "penalties": 0,
+              "takedownPoints": 0,
+              "reversalPoints": 0,
+              "escapePoints": 0,
+              "nearfallPoints": 0,
+              "penaltyPoints": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "bouts not marked final are ignored",
+      "sheet": {
+        "matchDate": "2026-01-08",
+        "opponentSchool": "Conformance High",
+        "venue": "Home",
+        "bouts": [
+          {
+            "weight": 106,
+            "wrestler": "A",
+            "opponent": "B",
+            "status": "Final",
+            "events": [
+              {
+                "side": "ours",
+                "period": "1",
+                "token": "Pin"
+              }
+            ]
+          },
+          {
+            "weight": 113,
+            "wrestler": "C",
+            "opponent": "D",
+            "status": "In Progress",
+            "events": [
+              {
+                "side": "ours",
+                "period": "1",
+                "token": "T3"
+              }
+            ]
+          },
+          {
+            "weight": 120,
+            "events": []
+          }
+        ]
+      },
+      "expected": {
+        "ourScore": 6,
+        "opponentScore": 0,
+        "decidedCount": 1,
+        "errors": 0,
+        "warnings": 0,
+        "insertable": [
+          106
+        ],
+        "bouts": [
+          {
+            "weight": 106,
+            "method": "Pin",
+            "period": "1st",
+            "result": "Win",
+            "teamPointsFor": 6,
+            "teamPointsAgainst": 0,
+            "pointMargin": 0,
+            "weForfeited": false,
+            "ours": {
+              "takedowns": 0,
+              "reversals": 0,
+              "escapes": 0,
+              "nearfall": 0,
+              "penalties": 0,
+              "takedownPoints": 0,
+              "reversalPoints": 0,
+              "escapePoints": 0,
+              "nearfallPoints": 0,
+              "penaltyPoints": 0
+            },
+            "theirs": {
+              "takedowns": 0,
+              "reversals": 0,
+              "escapes": 0,
+              "nearfall": 0,
+              "penalties": 0,
+              "takedownPoints": 0,
+              "reversalPoints": 0,
+              "escapePoints": 0,
+              "nearfallPoints": 0,
+              "penaltyPoints": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "a finalised bout with no wrestler is refused, not scored as a forfeit",
+      "sheet": {
+        "matchDate": "2026-01-08",
+        "opponentSchool": "Conformance High",
+        "venue": "Home",
+        "bouts": [
+          {
+            "weight": 106,
+            "wrestler": "",
+            "opponent": "B",
+            "status": "Final",
+            "events": [
+              {
+                "side": "ours",
+                "period": "1",
+                "token": "Pin"
+              }
+            ]
+          }
+        ]
+      },
+      "expected": {
+        "ourScore": 0,
+        "opponentScore": 0,
+        "decidedCount": 0,
+        "errors": 1,
+        "warnings": 0,
+        "insertable": [],
+        "bouts": []
+      }
+    },
+    {
+      "name": "a full card of mixed results",
+      "sheet": {
+        "matchDate": "2026-01-08",
+        "opponentSchool": "Conformance High",
+        "venue": "Home",
+        "bouts": [
+          {
+            "weight": 106,
+            "wrestler": "A",
+            "opponent": "Z",
+            "status": "Final",
+            "events": [
+              {
+                "side": "ours",
+                "period": "1",
+                "token": "Pin"
+              }
+            ]
+          },
+          {
+            "weight": 113,
+            "wrestler": "B",
+            "forfeit": "theirs",
+            "status": "Final",
+            "events": []
+          },
+          {
+            "weight": 120,
+            "opponent": "Y",
+            "forfeit": "ours",
+            "status": "Final",
+            "events": []
+          },
+          {
+            "weight": 126,
+            "forfeit": "both",
+            "status": "Final",
+            "events": []
+          },
+          {
+            "weight": 132,
+            "wrestler": "E",
+            "opponent": "X",
+            "status": "Final",
+            "events": [
+              {
+                "side": "ours",
+                "period": "1",
+                "token": "T3"
+              },
+              {
+                "side": "ours",
+                "period": "2",
+                "token": "N4"
+              },
+              {
+                "side": "ours",
+                "period": "3",
+                "token": "T3"
+              }
+            ]
+          },
+          {
+            "weight": 138,
+            "wrestler": "F",
+            "opponent": "W",
+            "status": "Final",
+            "events": [
+              {
+                "side": "theirs",
+                "period": "1",
+                "token": "T3"
+              },
+              {
+                "side": "theirs",
+                "period": "2",
+                "token": "T3"
+              },
+              {
+                "side": "theirs",
+                "period": "3",
+                "token": "N4"
+              }
+            ]
+          },
+          {
+            "weight": 144,
+            "wrestler": "G",
+            "opponent": "V",
+            "status": "Final",
+            "events": [
+              {
+                "side": "ours",
+                "period": "1",
+                "token": "T3"
+              },
+              {
+                "side": "theirs",
+                "period": "3",
+                "token": "E1"
+              }
+            ]
+          }
+        ]
+      },
+      "expected": {
+        "ourScore": 19,
+        "opponentScore": 10,
+        "decidedCount": 7,
+        "errors": 0,
+        "warnings": 0,
+        "insertable": [
+          106,
+          113,
+          132,
+          138,
+          144
+        ],
+        "bouts": [
+          {
+            "weight": 106,
+            "method": "Pin",
+            "period": "1st",
+            "result": "Win",
+            "teamPointsFor": 6,
+            "teamPointsAgainst": 0,
+            "pointMargin": 0,
+            "weForfeited": false,
+            "ours": {
+              "takedowns": 0,
+              "reversals": 0,
+              "escapes": 0,
+              "nearfall": 0,
+              "penalties": 0,
+              "takedownPoints": 0,
+              "reversalPoints": 0,
+              "escapePoints": 0,
+              "nearfallPoints": 0,
+              "penaltyPoints": 0
+            },
+            "theirs": {
+              "takedowns": 0,
+              "reversals": 0,
+              "escapes": 0,
+              "nearfall": 0,
+              "penalties": 0,
+              "takedownPoints": 0,
+              "reversalPoints": 0,
+              "escapePoints": 0,
+              "nearfallPoints": 0,
+              "penaltyPoints": 0
+            }
+          },
+          {
+            "weight": 113,
+            "method": "Forfeit",
+            "period": "1st",
+            "result": "Win",
+            "teamPointsFor": 6,
+            "teamPointsAgainst": 0,
+            "pointMargin": 0,
+            "weForfeited": false,
+            "ours": {
+              "takedowns": 0,
+              "reversals": 0,
+              "escapes": 0,
+              "nearfall": 0,
+              "penalties": 0,
+              "takedownPoints": 0,
+              "reversalPoints": 0,
+              "escapePoints": 0,
+              "nearfallPoints": 0,
+              "penaltyPoints": 0
+            },
+            "theirs": {
+              "takedowns": 0,
+              "reversals": 0,
+              "escapes": 0,
+              "nearfall": 0,
+              "penalties": 0,
+              "takedownPoints": 0,
+              "reversalPoints": 0,
+              "escapePoints": 0,
+              "nearfallPoints": 0,
+              "penaltyPoints": 0
+            }
+          },
+          {
+            "weight": 120,
+            "method": "Forfeit",
+            "period": "1st",
+            "result": "Loss",
+            "teamPointsFor": 0,
+            "teamPointsAgainst": 6,
+            "pointMargin": 0,
+            "weForfeited": true,
+            "ours": {
+              "takedowns": 0,
+              "reversals": 0,
+              "escapes": 0,
+              "nearfall": 0,
+              "penalties": 0,
+              "takedownPoints": 0,
+              "reversalPoints": 0,
+              "escapePoints": 0,
+              "nearfallPoints": 0,
+              "penaltyPoints": 0
+            },
+            "theirs": {
+              "takedowns": 0,
+              "reversals": 0,
+              "escapes": 0,
+              "nearfall": 0,
+              "penalties": 0,
+              "takedownPoints": 0,
+              "reversalPoints": 0,
+              "escapePoints": 0,
+              "nearfallPoints": 0,
+              "penaltyPoints": 0
+            }
+          },
+          {
+            "weight": 126,
+            "method": "Double Forfeit",
+            "period": "1st",
+            "result": null,
+            "teamPointsFor": 0,
+            "teamPointsAgainst": 0,
+            "pointMargin": 0,
+            "weForfeited": true,
+            "ours": {
+              "takedowns": 0,
+              "reversals": 0,
+              "escapes": 0,
+              "nearfall": 0,
+              "penalties": 0,
+              "takedownPoints": 0,
+              "reversalPoints": 0,
+              "escapePoints": 0,
+              "nearfallPoints": 0,
+              "penaltyPoints": 0
+            },
+            "theirs": {
+              "takedowns": 0,
+              "reversals": 0,
+              "escapes": 0,
+              "nearfall": 0,
+              "penalties": 0,
+              "takedownPoints": 0,
+              "reversalPoints": 0,
+              "escapePoints": 0,
+              "nearfallPoints": 0,
+              "penaltyPoints": 0
+            }
+          },
+          {
+            "weight": 132,
+            "method": "Major Decision",
+            "period": "3rd",
+            "result": "Win",
+            "teamPointsFor": 4,
+            "teamPointsAgainst": 0,
+            "pointMargin": 10,
+            "weForfeited": false,
+            "ours": {
+              "takedowns": 2,
+              "reversals": 0,
+              "escapes": 0,
+              "nearfall": 1,
+              "penalties": 0,
+              "takedownPoints": 6,
+              "reversalPoints": 0,
+              "escapePoints": 0,
+              "nearfallPoints": 4,
+              "penaltyPoints": 0
+            },
+            "theirs": {
+              "takedowns": 0,
+              "reversals": 0,
+              "escapes": 0,
+              "nearfall": 0,
+              "penalties": 0,
+              "takedownPoints": 0,
+              "reversalPoints": 0,
+              "escapePoints": 0,
+              "nearfallPoints": 0,
+              "penaltyPoints": 0
+            }
+          },
+          {
+            "weight": 138,
+            "method": "Major Decision",
+            "period": "3rd",
+            "result": "Loss",
+            "teamPointsFor": 0,
+            "teamPointsAgainst": 4,
+            "pointMargin": -10,
+            "weForfeited": false,
+            "ours": {
+              "takedowns": 0,
+              "reversals": 0,
+              "escapes": 0,
+              "nearfall": 0,
+              "penalties": 0,
+              "takedownPoints": 0,
+              "reversalPoints": 0,
+              "escapePoints": 0,
+              "nearfallPoints": 0,
+              "penaltyPoints": 0
+            },
+            "theirs": {
+              "takedowns": 2,
+              "reversals": 0,
+              "escapes": 0,
+              "nearfall": 1,
+              "penalties": 0,
+              "takedownPoints": 6,
+              "reversalPoints": 0,
+              "escapePoints": 0,
+              "nearfallPoints": 4,
+              "penaltyPoints": 0
+            }
+          },
+          {
+            "weight": 144,
+            "method": "Minor Decision",
+            "period": "3rd",
+            "result": "Win",
+            "teamPointsFor": 3,
+            "teamPointsAgainst": 0,
+            "pointMargin": 2,
+            "weForfeited": false,
+            "ours": {
+              "takedowns": 1,
+              "reversals": 0,
+              "escapes": 0,
+              "nearfall": 0,
+              "penalties": 0,
+              "takedownPoints": 3,
+              "reversalPoints": 0,
+              "escapePoints": 0,
+              "nearfallPoints": 0,
+              "penaltyPoints": 0
+            },
+            "theirs": {
+              "takedowns": 0,
+              "reversals": 0,
+              "escapes": 1,
+              "nearfall": 0,
+              "penalties": 0,
+              "takedownPoints": 0,
+              "reversalPoints": 0,
+              "escapePoints": 1,
+              "nearfallPoints": 0,
+              "penaltyPoints": 0
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

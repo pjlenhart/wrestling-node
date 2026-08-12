@@ -1,0 +1,35 @@
+{
+  "djangoVersion": "4.2.30",
+  "cases": [
+    {
+      "password": "correct horse battery staple",
+      "encoded": "pbkdf2_sha256$320000$8AATKBb63cocTJ2CA58jR0$C97MzJYjZjHbEOfO2XFVlYE3aGM8I421BHmqwfqfRdE=",
+      "iterations": 320000
+    },
+    {
+      "password": "correct horse battery staple",
+      "encoded": "pbkdf2_sha256$390000$pOvfC4uDWMLTQDqvhkCblT$20TQKUj602QvAr2amhdwuRGe4F6RHmynM7SGiH0ZtCE=",
+      "iterations": 390000
+    },
+    {
+      "password": "p@ssw0rd with spaces & symbols!",
+      "encoded": "pbkdf2_sha256$320000$vFpQiDiqDp2aKXHzUVWuJw$5BWwWVLnfzRvUbnqnV0L5/7doWZE+StJ5DkDvQqXsBk=",
+      "iterations": 320000
+    },
+    {
+      "password": "short",
+      "encoded": "pbkdf2_sha256$390000$jrCuqNuMXUOggnE43qde01$WQ582TUwOksXIuqcTkCn6S5Rqusolx2RsZH1mQp3Jxk=",
+      "iterations": 390000
+    },
+    {
+      "password": "unicode-caf\u00e9-\u03a9",
+      "encoded": "pbkdf2_sha256$320000$BRgE3ZgOLZWTD2nQdjgrD5$4xWgIm6LsTVO4FIHa7GCSKzu7hkuFMAgmxn67x0/aww=",
+      "iterations": 320000
+    },
+    {
+      "password": "default cost password",
+      "encoded": "pbkdf2_sha256$600000$AN4uFOjScMCI7l47kIkyM7$mK1HELGth363E78rNMz2YrX1F0R7q0jmHMgHsjue18s=",
+      "iterations": null
+    }
+  ]
+}
