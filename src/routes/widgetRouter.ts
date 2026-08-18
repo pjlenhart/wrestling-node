@@ -14,8 +14,8 @@ widgetRouter.get('/announcements', async (req: Request, res: Response) => {
 });
 
 widgetRouter.get('/accolades/:id', async (req: Request, res: Response) => {
-    let query = `SELECT * FROM wrestlingdb.wrestling_accolade a WHERE a.wrestler_id=${req.params.id}`;
-    connection1.query(query, (err, results, fields) => {
+    let query = 'SELECT * FROM wrestlingdb.wrestling_accolade a WHERE a.wrestler_id=?';
+    connection1.query(query, [req.params.id], (err, results, fields) => {
         if (err) res.status(500).send(err);
         res.end(JSON.stringify(results));
     });

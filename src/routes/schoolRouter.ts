@@ -14,8 +14,8 @@ schoolRouter.get('/', async (req: Request, res: Response) => {
 });
 
 schoolRouter.get('/:id', async (req: Request, res: Response) => {
-    let query = `SELECT * FROM wrestlingdb.wrestling_school s WHERE s.school_id=${req.params.id}`;
-    connection1.query(query, (err, results, fields) => {
+    let query = 'SELECT * FROM wrestlingdb.wrestling_school s WHERE s.school_id=?';
+    connection1.query(query, [req.params.id], (err, results, fields) => {
         if (err) res.status(500).send(err);
         res.end(JSON.stringify(results));
     });
