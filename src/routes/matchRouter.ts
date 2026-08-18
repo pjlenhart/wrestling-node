@@ -67,7 +67,11 @@ matchRouter.get('/regular-season', async (req: Request, res: Response) => {
                             m.team_match_id <> 24
     `;
     connection1.query(query, (err, results, fields) => {
-        if (err) res.status(500).send(err);
+        if (err) {
+            console.error(err);
+            res.status(500).json({ error: 'Query failed' });
+            return;
+        }
         res.end(JSON.stringify(results));
     });
 });
@@ -135,7 +139,11 @@ matchRouter.get('/regular-season/:id', async (req: Request, res: Response) => {
                     AND m.team_match_id <> 24
     `;
     connection1.query(query, [req.params.id], (err, results, fields) => {
-        if (err) res.status(500).send(err);
+        if (err) {
+            console.error(err);
+            res.status(500).json({ error: 'Query failed' });
+            return;
+        }
         res.end(JSON.stringify(results));
     });
 });
@@ -183,7 +191,11 @@ matchRouter.get('/individual', async (req: Request, res: Response) => {
                     m.team_match_id = 24
             `;
     connection1.query(query, (err, results, fields) => {
-        if (err) res.status(500).send(err);
+        if (err) {
+            console.error(err);
+            res.status(500).json({ error: 'Query failed' });
+            return;
+        }
         res.end(JSON.stringify(results));
     });
 });
@@ -232,7 +244,11 @@ matchRouter.get('/individual/:id', async (req: Request, res: Response) => {
                     AND m.wrestler_id = ?
             `;
     connection1.query(query, [req.params.id], (err, results, fields) => {
-        if (err) res.status(500).send(err);
+        if (err) {
+            console.error(err);
+            res.status(500).json({ error: 'Query failed' });
+            return;
+        }
         res.end(JSON.stringify(results));
     });
 });
@@ -267,7 +283,11 @@ matchRouter.get('/team-matches', async (req: Request, res: Response) => {
             t.team_match_id <> 24
         `;
     connection1.query(query, (err, results, fields) => {
-        if (err) res.status(500).send(err);
+        if (err) {
+            console.error(err);
+            res.status(500).json({ error: 'Query failed' });
+            return;
+        }
         res.end(JSON.stringify(results));
     });
 });
@@ -303,7 +323,11 @@ matchRouter.get('/team-matches/:id', async (req: Request, res: Response) => {
             AND t.team_match_id = ?
         `;
     connection1.query(query, [req.params.id], (err, results, fields) => {
-        if (err) res.status(500).send(err);
+        if (err) {
+            console.error(err);
+            res.status(500).json({ error: 'Query failed' });
+            return;
+        }
         res.end(JSON.stringify(results));
     });
 });

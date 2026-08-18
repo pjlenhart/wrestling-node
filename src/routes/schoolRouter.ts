@@ -8,7 +8,11 @@ const schoolRouter = express.Router();
 schoolRouter.get('/', async (req: Request, res: Response) => {
     let query = 'SELECT * FROM wrestlingdb.wrestling_school';
     connection1.query(query, (err, results, fields) => {
-        if (err) res.status(500).send(err);
+        if (err) {
+            console.error(err);
+            res.status(500).json({ error: 'Query failed' });
+            return;
+        }
         res.end(JSON.stringify(results));
     });
 });
@@ -16,7 +20,11 @@ schoolRouter.get('/', async (req: Request, res: Response) => {
 schoolRouter.get('/:id', async (req: Request, res: Response) => {
     let query = 'SELECT * FROM wrestlingdb.wrestling_school s WHERE s.school_id=?';
     connection1.query(query, [req.params.id], (err, results, fields) => {
-        if (err) res.status(500).send(err);
+        if (err) {
+            console.error(err);
+            res.status(500).json({ error: 'Query failed' });
+            return;
+        }
         res.end(JSON.stringify(results));
     });
 });
