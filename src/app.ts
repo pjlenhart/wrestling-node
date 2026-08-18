@@ -5,6 +5,9 @@ import matchRouter from './routes/matchRouter';
 import schoolRouter from './routes/schoolRouter';
 import statsRouter from './routes/statisticsRouter';
 import widgetRouter from './routes/widgetRouter';
+import liveScoresheetRouter from './routes/liveScoresheetRouter';
+import authRouter from './routes/authRouter';
+import config, { useProductionDatabase } from './database/config';
 const cors = require('cors');
 const express = require('express');
 const cookieParser = require('cookie-parser');
@@ -36,5 +39,19 @@ app.use(`${prePath}/matches`, matchRouter);
 app.use(`${prePath}/schools`, schoolRouter);
 app.use(`${prePath}/statistics`, statsRouter);
 app.use(`${prePath}/info`, widgetRouter);
+app.use(`${prePath}/scoresheets`, liveScoresheetRouter);
+app.use(`${prePath}/auth`, authRouter);
 
-app.listen(8001, () => console.log('listening on 8001'));
+// Configurable so a second instance can be run against a local database
+// without stopping the one already serving 8001.
+const port = Number(process.env.PORT) || 8001;
+
+app.listen(port, () => {
+    // Reports what was actually resolved, not what was asked for -- the whole
+    // point is to be able to tell at a glance whether this instance is about to
+    // write to live match history.
+    const target = useProductionDatabase
+        ? `PRODUCTION (${config.mysql.host}/${config.mysql.database})`
+        : `local (${config.mysql.host}/${config.mysql.database})`;
+    console.log(`listening on ${port} -- database: ${target}`);
+});

@@ -242,7 +242,18 @@ matchRouter.get('/team-matches', async (req: Request, res: Response) => {
         SELECT 
             * ,
             DATE_FORMAT(match_date, '%Y-%m-%d') as 'match_date_formatted',
-            CASE 
+            -- The scoresheet this dual was recorded from, if it came from one.
+            -- A correlated subquery rather than a join so a team match cannot
+            -- be duplicated in the results by having more than one sheet, and
+            -- so the SELECT * above keeps returning only team match columns.
+            (
+                SELECT s.scoresheet_id
+                FROM wrestlingdb.wrestling_livescoresheet s
+                WHERE s.team_match_id = t.team_match_id
+                ORDER BY s.scoresheet_id DESC
+                LIMIT 1
+            ) as 'scoresheet_id',
+            CASE
                 WHEN DATEDIFF('2021-11-01',match_date) < 1 AND DATEDIFF('2022-04-01', match_date) > 0 THEN '2021-2022'
                 WHEN DATEDIFF('2022-11-01',match_date) < 1 AND DATEDIFF('2023-04-01', match_date) > 0 THEN '2022-2023'
                 WHEN DATEDIFF('2023-11-01',match_date) < 1 AND DATEDIFF('2024-04-01', match_date) > 0 THEN '2023-2024'
@@ -266,7 +277,18 @@ matchRouter.get('/team-matches/:id', async (req: Request, res: Response) => {
         SELECT 
             * ,
             DATE_FORMAT(match_date, '%Y-%m-%d') as 'match_date_formatted',
-            CASE 
+            -- The scoresheet this dual was recorded from, if it came from one.
+            -- A correlated subquery rather than a join so a team match cannot
+            -- be duplicated in the results by having more than one sheet, and
+            -- so the SELECT * above keeps returning only team match columns.
+            (
+                SELECT s.scoresheet_id
+                FROM wrestlingdb.wrestling_livescoresheet s
+                WHERE s.team_match_id = t.team_match_id
+                ORDER BY s.scoresheet_id DESC
+                LIMIT 1
+            ) as 'scoresheet_id',
+            CASE
                 WHEN DATEDIFF('2021-11-01',match_date) < 1 AND DATEDIFF('2022-04-01', match_date) > 0 THEN '2021-2022'
                 WHEN DATEDIFF('2022-11-01',match_date) < 1 AND DATEDIFF('2023-04-01', match_date) > 0 THEN '2022-2023'
                 WHEN DATEDIFF('2023-11-01',match_date) < 1 AND DATEDIFF('2024-04-01', match_date) > 0 THEN '2023-2024'
