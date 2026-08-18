@@ -1,0 +1,61 @@
+name: Deploy backend
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-backend
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Compile TypeScript
+        run: npm run build
+
+      - name: Configure SSH
+        run: |
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -H "${{ secrets.SSH_HOST }}" >> ~/.ssh/known_hosts 2>/dev/null
+
+      # Only the compiled output and the manifests ship. .env and node_modules
+      # stay untouched on the server -- .env holds DB_SOURCE/JWT_SECRET and is
+      # deliberately never in git.
+      - name: Upload compiled app
+        run: |
+          rsync -avz --delete \
+            -e "ssh -i ~/.ssh/deploy_key -o IdentitiesOnly=yes" \
+            dist/ "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.BACKEND_PATH }}/dist/"
+          rsync -avz \
+            -e "ssh -i ~/.ssh/deploy_key -o IdentitiesOnly=yes" \
+            package.json package-lock.json \
+            "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.BACKEND_PATH }}/"
+
+      # forever runs the API as root, so the restart goes through a root-owned
+      # wrapper script (deploy/restart-wrestling-api.sh, installed to
+      # /usr/local/sbin) that the deploy user is granted NOPASSWD sudo on.
+      # Granting sudo on `forever` itself would let any argument through.
+      # `sudo -n` fails loudly rather than hanging on a password prompt.
+      - name: Install production deps and restart
+        run: |
+          ssh -i ~/.ssh/deploy_key -o IdentitiesOnly=yes \
+            "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}" \
+            "set -e
+             cd '${{ secrets.BACKEND_PATH }}'
+             npm ci --omit=dev
+             sudo -n /usr/local/sbin/restart-wrestling-api"
