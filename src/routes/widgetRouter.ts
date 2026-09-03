@@ -8,15 +8,23 @@ const widgetRouter = express.Router();
 widgetRouter.get('/announcements', async (req: Request, res: Response) => {
     let query = 'SELECT * FROM wrestlingdb.wrestling_announcement';
     connection1.query(query, (err, results, fields) => {
-        if (err) res.status(500).send(err);
+        if (err) {
+            console.error(err);
+            res.status(500).json({ error: 'Query failed' });
+            return;
+        }
         res.end(JSON.stringify(results));
     });
 });
 
 widgetRouter.get('/accolades/:id', async (req: Request, res: Response) => {
-    let query = `SELECT * FROM wrestlingdb.wrestling_accolade a WHERE a.wrestler_id=${req.params.id}`;
-    connection1.query(query, (err, results, fields) => {
-        if (err) res.status(500).send(err);
+    let query = 'SELECT * FROM wrestlingdb.wrestling_accolade a WHERE a.wrestler_id=?';
+    connection1.query(query, [req.params.id], (err, results, fields) => {
+        if (err) {
+            console.error(err);
+            res.status(500).json({ error: 'Query failed' });
+            return;
+        }
         res.end(JSON.stringify(results));
     });
 });

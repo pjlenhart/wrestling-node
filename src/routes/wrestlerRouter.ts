@@ -8,15 +8,23 @@ const wrestlerRouter = express.Router();
 wrestlerRouter.get('/', async (req: Request, res: Response) => {
     let query = 'SELECT * FROM wrestlingdb.wrestling_wrestler';
     connection1.query(query, (err, results, fields) => {
-        if (err) res.status(500).send(err);
+        if (err) {
+            console.error(err);
+            res.status(500).json({ error: 'Query failed' });
+            return;
+        }
         res.end(JSON.stringify(results));
     });
 });
 
 wrestlerRouter.get('/:id', async (req: Request, res: Response) => {
-    let query = `SELECT * FROM wrestlingdb.wrestling_wrestler w WHERE w.wrestler_id=${req.params.id}`;
-    connection1.query(query, (err, results, fields) => {
-        if (err) res.status(500).send(err);
+    let query = 'SELECT * FROM wrestlingdb.wrestling_wrestler w WHERE w.wrestler_id=?';
+    connection1.query(query, [req.params.id], (err, results, fields) => {
+        if (err) {
+            console.error(err);
+            res.status(500).json({ error: 'Query failed' });
+            return;
+        }
         res.end(JSON.stringify(results));
     });
 });
