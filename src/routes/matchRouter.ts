@@ -47,6 +47,7 @@ const jsonPairs = (alias: string, columns: string[]) =>
 
 const matchColumns = `
     m.match_id as 'id',
+    sheet.scoresheet_id,
     m.match_id,
     m.team_match_id,
     m.wrestler_id,
@@ -69,6 +70,33 @@ const matchJoins = `
 // `has_breakdown` is 1 when the match carries the full scoring breakdown and 0
 // when it does not. A missing breakdown is not a breakdown of zeros, so stats
 // that add these up must skip matches where it is 0 rather than count them.
+// The scoresheet each bout was recorded from, if it came from one. A dual's
+// sheet is found through its team match, the same way the team match list
+// finds it. A tournament sheet is one bout, and records the match it wrote in
+// its stored bout -- the team match it shares with every other individual bout
+// cannot tell them apart. Both are grouped first, so a match is joined to one
+// sheet at most and the scan happens once rather than once per row.
+const dualSheetJoin = `
+    LEFT JOIN (
+        SELECT team_match_id, MAX(scoresheet_id) as 'scoresheet_id'
+        FROM wrestlingdb.wrestling_livescoresheet
+        WHERE team_match_id <> ${INDIVIDUAL_TEAM_MATCH_ID}
+        GROUP BY team_match_id
+    ) sheet
+        ON sheet.team_match_id = m.team_match_id`;
+
+const tournamentSheetJoin = `
+    LEFT JOIN (
+        SELECT
+            CAST(JSON_EXTRACT(bouts, '$[0].matchId') AS UNSIGNED) as 'match_id',
+            MAX(scoresheet_id) as 'scoresheet_id'
+        FROM wrestlingdb.wrestling_livescoresheet
+        WHERE team_match_id = ${INDIVIDUAL_TEAM_MATCH_ID}
+            AND JSON_TYPE(JSON_EXTRACT(bouts, '$[0].matchId')) = 'INTEGER'
+        GROUP BY match_id
+    ) sheet
+        ON sheet.match_id = m.match_id`;
+
 const dualMeetQuery = (where: string) => `
     SELECT
         ${matchColumns},
@@ -86,6 +114,7 @@ const dualMeetQuery = (where: string) => `
         ${matchJoins}
             LEFT JOIN wrestlingdb.wrestling_regularseason rs
                 ON m.match_id = rs.match_id
+            ${dualSheetJoin}
     WHERE
         m.team_match_id <> ${INDIVIDUAL_TEAM_MATCH_ID}
         ${where}`;
@@ -101,6 +130,7 @@ const individualQuery = (where: string) => `
             'points_against', ps.points_against,
             'method_of_result', ps.method_of_result,
             'period', ps.period,
+            'match_time', ps.match_time,
             ${jsonPairs('ps', BREAKDOWN_COLUMNS)},
             'has_breakdown', ps.takedowns_for IS NOT NULL
         ) as 'match_stats'
@@ -108,6 +138,7 @@ const individualQuery = (where: string) => `
         ${matchJoins}
             LEFT JOIN wrestlingdb.wrestling_postseason ps
                 ON m.match_id = ps.match_id
+            ${tournamentSheetJoin}
     WHERE
         m.team_match_id = ${INDIVIDUAL_TEAM_MATCH_ID}
         ${where}`;
@@ -160,6 +191,24 @@ matchRouter.get('/individual', async (req: Request, res: Response) => {
 
 matchRouter.get('/individual/:id', async (req: Request, res: Response) => {
     sendQuery(res, individualQuery('AND m.wrestler_id = ?'), [req.params.id]);
+});
+
+// Every tournament name already in use, most recent first, so a new bout can
+// be filed under the same spelling as last year's instead of a near miss.
+matchRouter.get('/tournaments', async (req: Request, res: Response) => {
+    sendQuery(
+        res,
+        `SELECT
+            ps.tournament,
+            DATE_FORMAT(MAX(m.match_date), '%Y-%m-%d') as 'last_date',
+            COUNT(*) as 'bouts'
+        FROM
+            wrestlingdb.wrestling_postseason ps
+                JOIN wrestlingdb.wrestling_match m
+                    ON m.match_id = ps.match_id
+        GROUP BY ps.tournament
+        ORDER BY MAX(m.match_date) DESC`,
+    );
 });
 
 matchRouter.get('/team-matches', async (req: Request, res: Response) => {

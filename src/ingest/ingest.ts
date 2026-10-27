@@ -44,7 +44,10 @@ const NO_MATCH_TIME = '00:00:00';
  * case-insensitively before anything is inserted, so a school does not end up
  * in the directory twice under different capitalisation.
  */
-async function resolveSchool(conn: PoolConnection, sheet: LiveSheet): Promise<number | null> {
+export async function resolveSchool(
+    conn: PoolConnection,
+    sheet: Pick<LiveSheet, 'opponentSchool' | 'opponentSchoolId'>,
+): Promise<number | null> {
     if (sheet.opponentSchoolId) {
         const [rows] = await conn.query<RowDataPacket[]>(
             'SELECT school_id FROM wrestling_school WHERE school_id = ?',
@@ -77,7 +80,10 @@ async function resolveSchool(conn: PoolConnection, sheet: LiveSheet): Promise<nu
  * inventing a wrestler to make an import succeed is how a roster fills up with
  * misspellings.
  */
-async function resolveWrestler(conn: PoolConnection, bout: DerivedBout): Promise<number> {
+export async function resolveWrestler(
+    conn: PoolConnection,
+    bout: Pick<DerivedBout, 'weight' | 'wrestler' | 'wrestlerId'>,
+): Promise<number> {
     if (bout.wrestlerId) {
         const [rows] = await conn.query<RowDataPacket[]>(
             'SELECT wrestler_id FROM wrestling_wrestler WHERE wrestler_id = ?',

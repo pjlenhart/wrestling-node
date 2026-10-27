@@ -1,0 +1,1105 @@
+{
+  "description": "Tournament bout derivation. Hand-written; both the API and the frontend execute these. Edit here and copy to the other repo.",
+  "cases": [
+    {
+      "name": "live decision derives the breakdown and the score",
+      "sheet": {
+        "tournament": "BCPS JV Invitational",
+        "matchDate": "2026-01-10",
+        "opponentSchool": "Dulaney",
+        "opponentSchoolId": null,
+        "bout": {
+          "weight": 145,
+          "wrestlerId": 7,
+          "wrestler": "J. Smith",
+          "opponent": "F. Kakos",
+          "events": [
+            {
+              "id": "e0",
+              "side": "ours",
+              "period": "1",
+              "token": "T3"
+            },
+            {
+              "id": "e1",
+              "side": "theirs",
+              "period": "2",
+              "token": "E1"
+            },
+            {
+              "id": "e2",
+              "side": "ours",
+              "period": "2",
+              "token": "T3"
+            },
+            {
+              "id": "e3",
+              "side": "theirs",
+              "period": "3",
+              "token": "E1"
+            }
+          ],
+          "status": "Final",
+          "forfeit": null,
+          "winner": null,
+          "method": null,
+          "mode": "live",
+          "quick": null,
+          "fallTime": ""
+        }
+      },
+      "expected": {
+        "record": true,
+        "result": "Win",
+        "method": "Minor Decision",
+        "period": "3rd",
+        "pointsFor": 6,
+        "pointsAgainst": 2,
+        "matchTime": "00:00:00",
+        "breakdown": true,
+        "errors": 0
+      }
+    },
+    {
+      "name": "live major decision",
+      "sheet": {
+        "tournament": "BCPS JV Invitational",
+        "matchDate": "2026-01-10",
+        "opponentSchool": "Dulaney",
+        "opponentSchoolId": null,
+        "bout": {
+          "weight": 145,
+          "wrestlerId": 7,
+          "wrestler": "J. Smith",
+          "opponent": "F. Kakos",
+          "events": [
+            {
+              "id": "e0",
+              "side": "ours",
+              "period": "1",
+              "token": "T3"
+            },
+            {
+              "id": "e1",
+              "side": "ours",
+              "period": "1",
+              "token": "N3"
+            },
+            {
+              "id": "e2",
+              "side": "ours",
+              "period": "2",
+              "token": "T3"
+            },
+            {
+              "id": "e3",
+              "side": "theirs",
+              "period": "3",
+              "token": "E1"
+            }
+          ],
+          "status": "Final",
+          "forfeit": null,
+          "winner": null,
+          "method": null,
+          "mode": "live",
+          "quick": null,
+          "fallTime": ""
+        }
+      },
+      "expected": {
+        "record": true,
+        "result": "Win",
+        "method": "Major Decision",
+        "period": "3rd",
+        "pointsFor": 9,
+        "pointsAgainst": 1,
+        "matchTime": "00:00:00",
+        "breakdown": true,
+        "errors": 0
+      }
+    },
+    {
+      "name": "live pin keeps the fall time",
+      "sheet": {
+        "tournament": "BCPS JV Invitational",
+        "matchDate": "2026-01-10",
+        "opponentSchool": "Dulaney",
+        "opponentSchoolId": null,
+        "bout": {
+          "weight": 145,
+          "wrestlerId": 7,
+          "wrestler": "J. Smith",
+          "opponent": "F. Kakos",
+          "events": [
+            {
+              "id": "e0",
+              "side": "ours",
+              "period": "1",
+              "token": "T3"
+            },
+            {
+              "id": "e1",
+              "side": "ours",
+              "period": "2",
+              "token": "Pin"
+            }
+          ],
+          "status": "Final",
+          "forfeit": null,
+          "winner": null,
+          "method": null,
+          "mode": "live",
+          "quick": null,
+          "fallTime": "3:42"
+        }
+      },
+      "expected": {
+        "record": true,
+        "result": "Win",
+        "method": "Pin",
+        "period": "2nd",
+        "pointsFor": 3,
+        "pointsAgainst": 0,
+        "matchTime": "00:03:42",
+        "breakdown": true,
+        "errors": 0
+      }
+    },
+    {
+      "name": "live loss by pin",
+      "sheet": {
+        "tournament": "BCPS JV Invitational",
+        "matchDate": "2026-01-10",
+        "opponentSchool": "Dulaney",
+        "opponentSchoolId": null,
+        "bout": {
+          "weight": 145,
+          "wrestlerId": 7,
+          "wrestler": "J. Smith",
+          "opponent": "F. Kakos",
+          "events": [
+            {
+              "id": "e0",
+              "side": "ours",
+              "period": "1",
+              "token": "T3"
+            },
+            {
+              "id": "e1",
+              "side": "theirs",
+              "period": "1",
+              "token": "R2"
+            },
+            {
+              "id": "e2",
+              "side": "theirs",
+              "period": "1",
+              "token": "Pin"
+            }
+          ],
+          "status": "Final",
+          "forfeit": null,
+          "winner": null,
+          "method": null,
+          "mode": "live",
+          "quick": null,
+          "fallTime": "1:05"
+        }
+      },
+      "expected": {
+        "record": true,
+        "result": "Loss",
+        "method": "Pin",
+        "period": "1st",
+        "pointsFor": 3,
+        "pointsAgainst": 2,
+        "matchTime": "00:01:05",
+        "breakdown": true,
+        "errors": 0
+      }
+    },
+    {
+      "name": "a fall time on a decision is ignored",
+      "sheet": {
+        "tournament": "BCPS JV Invitational",
+        "matchDate": "2026-01-10",
+        "opponentSchool": "Dulaney",
+        "opponentSchoolId": null,
+        "bout": {
+          "weight": 145,
+          "wrestlerId": 7,
+          "wrestler": "J. Smith",
+          "opponent": "F. Kakos",
+          "events": [
+            {
+              "id": "e0",
+              "side": "ours",
+              "period": "1",
+              "token": "T3"
+            }
+          ],
+          "status": "Final",
+          "forfeit": null,
+          "winner": null,
+          "method": null,
+          "mode": "live",
+          "quick": null,
+          "fallTime": "5:00"
+        }
+      },
+      "expected": {
+        "record": true,
+        "result": "Win",
+        "method": "Minor Decision",
+        "period": "1st",
+        "pointsFor": 3,
+        "pointsAgainst": 0,
+        "matchTime": "00:00:00",
+        "breakdown": true,
+        "errors": 0
+      }
+    },
+    {
+      "name": "a mistyped fall time is refused",
+      "sheet": {
+        "tournament": "BCPS JV Invitational",
+        "matchDate": "2026-01-10",
+        "opponentSchool": "Dulaney",
+        "opponentSchoolId": null,
+        "bout": {
+          "weight": 145,
+          "wrestlerId": 7,
+          "wrestler": "J. Smith",
+          "opponent": "F. Kakos",
+          "events": [
+            {
+              "id": "e0",
+              "side": "ours",
+              "period": "1",
+              "token": "Pin"
+            }
+          ],
+          "status": "Final",
+          "forfeit": null,
+          "winner": null,
+          "method": null,
+          "mode": "live",
+          "quick": null,
+          "fallTime": "342"
+        }
+      },
+      "expected": {
+        "record": true,
+        "result": null,
+        "method": null,
+        "period": null,
+        "pointsFor": null,
+        "pointsAgainst": null,
+        "matchTime": "00:00:00",
+        "breakdown": false,
+        "errors": 1
+      }
+    },
+    {
+      "name": "a tied live bout cannot be recorded",
+      "sheet": {
+        "tournament": "BCPS JV Invitational",
+        "matchDate": "2026-01-10",
+        "opponentSchool": "Dulaney",
+        "opponentSchoolId": null,
+        "bout": {
+          "weight": 145,
+          "wrestlerId": 7,
+          "wrestler": "J. Smith",
+          "opponent": "F. Kakos",
+          "events": [
+            {
+              "id": "e0",
+              "side": "ours",
+              "period": "1",
+              "token": "T3"
+            },
+            {
+              "id": "e1",
+              "side": "theirs",
+              "period": "2",
+              "token": "T3"
+            }
+          ],
+          "status": "Final",
+          "forfeit": null,
+          "winner": null,
+          "method": null,
+          "mode": "live",
+          "quick": null,
+          "fallTime": ""
+        }
+      },
+      "expected": {
+        "record": true,
+        "result": null,
+        "method": null,
+        "period": null,
+        "pointsFor": null,
+        "pointsAgainst": null,
+        "matchTime": "00:00:00",
+        "breakdown": false,
+        "errors": 1
+      }
+    },
+    {
+      "name": "sudden victory wins the tie",
+      "sheet": {
+        "tournament": "BCPS JV Invitational",
+        "matchDate": "2026-01-10",
+        "opponentSchool": "Dulaney",
+        "opponentSchoolId": null,
+        "bout": {
+          "weight": 145,
+          "wrestlerId": 7,
+          "wrestler": "J. Smith",
+          "opponent": "F. Kakos",
+          "events": [
+            {
+              "id": "e0",
+              "side": "ours",
+              "period": "1",
+              "token": "T3"
+            },
+            {
+              "id": "e1",
+              "side": "theirs",
+              "period": "2",
+              "token": "T3"
+            },
+            {
+              "id": "e2",
+              "side": "theirs",
+              "period": "SV",
+              "token": "T3"
+            }
+          ],
+          "status": "Final",
+          "forfeit": null,
+          "winner": null,
+          "method": null,
+          "mode": "live",
+          "quick": null,
+          "fallTime": ""
+        }
+      },
+      "expected": {
+        "record": true,
+        "result": "Loss",
+        "method": "Minor Decision",
+        "period": "OT1",
+        "pointsFor": 3,
+        "pointsAgainst": 6,
+        "matchTime": "00:00:00",
+        "breakdown": true,
+        "errors": 0
+      }
+    },
+    {
+      "name": "nothing scored is not a result",
+      "sheet": {
+        "tournament": "BCPS JV Invitational",
+        "matchDate": "2026-01-10",
+        "opponentSchool": "Dulaney",
+        "opponentSchoolId": null,
+        "bout": {
+          "weight": 145,
+          "wrestlerId": 7,
+          "wrestler": "J. Smith",
+          "opponent": "F. Kakos",
+          "events": [],
+          "status": "Final",
+          "forfeit": null,
+          "winner": null,
+          "method": null,
+          "mode": "live",
+          "quick": null,
+          "fallTime": ""
+        }
+      },
+      "expected": {
+        "record": true,
+        "result": null,
+        "method": null,
+        "period": null,
+        "pointsFor": null,
+        "pointsAgainst": null,
+        "matchTime": "00:00:00",
+        "breakdown": false,
+        "errors": 1
+      }
+    },
+    {
+      "name": "a DQ needs a winner",
+      "sheet": {
+        "tournament": "BCPS JV Invitational",
+        "matchDate": "2026-01-10",
+        "opponentSchool": "Dulaney",
+        "opponentSchoolId": null,
+        "bout": {
+          "weight": 145,
+          "wrestlerId": 7,
+          "wrestler": "J. Smith",
+          "opponent": "F. Kakos",
+          "events": [
+            {
+              "id": "e0",
+              "side": "ours",
+              "period": "2",
+              "token": "DQ"
+            }
+          ],
+          "status": "Final",
+          "forfeit": null,
+          "winner": null,
+          "method": "Disqualification",
+          "mode": "live",
+          "quick": null,
+          "fallTime": ""
+        }
+      },
+      "expected": {
+        "record": true,
+        "result": null,
+        "method": null,
+        "period": null,
+        "pointsFor": null,
+        "pointsAgainst": null,
+        "matchTime": "00:00:00",
+        "breakdown": false,
+        "errors": 1
+      }
+    },
+    {
+      "name": "they forfeit: a win by forfeit with no breakdown",
+      "sheet": {
+        "tournament": "BCPS JV Invitational",
+        "matchDate": "2026-01-10",
+        "opponentSchool": "Dulaney",
+        "opponentSchoolId": null,
+        "bout": {
+          "weight": 145,
+          "wrestlerId": 7,
+          "wrestler": "J. Smith",
+          "opponent": "F. Kakos",
+          "events": [],
+          "status": "Final",
+          "forfeit": "theirs",
+          "winner": null,
+          "method": null,
+          "mode": "live",
+          "quick": null,
+          "fallTime": ""
+        }
+      },
+      "expected": {
+        "record": true,
+        "result": "Win",
+        "method": "Forfeit",
+        "period": "1st",
+        "pointsFor": null,
+        "pointsAgainst": null,
+        "matchTime": "00:00:00",
+        "breakdown": false,
+        "errors": 0
+      }
+    },
+    {
+      "name": "we forfeit: nothing is recorded, and no names are needed",
+      "sheet": {
+        "tournament": "BCPS JV Invitational",
+        "matchDate": "2026-01-10",
+        "opponentSchool": "",
+        "opponentSchoolId": null,
+        "bout": {
+          "weight": 145,
+          "wrestlerId": null,
+          "wrestler": "",
+          "opponent": "",
+          "events": [],
+          "status": "Final",
+          "forfeit": "ours",
+          "winner": null,
+          "method": null,
+          "mode": "live",
+          "quick": null,
+          "fallTime": ""
+        }
+      },
+      "expected": {
+        "record": false,
+        "result": null,
+        "method": "Forfeit",
+        "period": "1st",
+        "pointsFor": null,
+        "pointsAgainst": null,
+        "matchTime": "00:00:00",
+        "breakdown": false,
+        "errors": 0
+      }
+    },
+    {
+      "name": "a double forfeit is not a tournament result",
+      "sheet": {
+        "tournament": "BCPS JV Invitational",
+        "matchDate": "2026-01-10",
+        "opponentSchool": "Dulaney",
+        "opponentSchoolId": null,
+        "bout": {
+          "weight": 145,
+          "wrestlerId": 7,
+          "wrestler": "J. Smith",
+          "opponent": "F. Kakos",
+          "events": [],
+          "status": "Final",
+          "forfeit": "both",
+          "winner": null,
+          "method": null,
+          "mode": "live",
+          "quick": null,
+          "fallTime": ""
+        }
+      },
+      "expected": {
+        "record": true,
+        "result": null,
+        "method": null,
+        "period": null,
+        "pointsFor": null,
+        "pointsAgainst": null,
+        "matchTime": "00:00:00",
+        "breakdown": false,
+        "errors": 1
+      }
+    },
+    {
+      "name": "missing names and school are all reported",
+      "sheet": {
+        "tournament": "BCPS JV Invitational",
+        "matchDate": "2026-01-10",
+        "opponentSchool": "",
+        "opponentSchoolId": null,
+        "bout": {
+          "weight": 145,
+          "wrestlerId": null,
+          "wrestler": "",
+          "opponent": "",
+          "events": [
+            {
+              "id": "e0",
+              "side": "ours",
+              "period": "1",
+              "token": "T3"
+            }
+          ],
+          "status": "Final",
+          "forfeit": null,
+          "winner": null,
+          "method": null,
+          "mode": "live",
+          "quick": null,
+          "fallTime": ""
+        }
+      },
+      "expected": {
+        "record": true,
+        "result": null,
+        "method": null,
+        "period": null,
+        "pointsFor": null,
+        "pointsAgainst": null,
+        "matchTime": "00:00:00",
+        "breakdown": false,
+        "errors": 3
+      }
+    },
+    {
+      "name": "missing weight is reported",
+      "sheet": {
+        "tournament": "BCPS JV Invitational",
+        "matchDate": "2026-01-10",
+        "opponentSchool": "Dulaney",
+        "opponentSchoolId": null,
+        "bout": {
+          "weight": null,
+          "wrestlerId": 7,
+          "wrestler": "J. Smith",
+          "opponent": "F. Kakos",
+          "events": [
+            {
+              "id": "e0",
+              "side": "ours",
+              "period": "1",
+              "token": "T3"
+            }
+          ],
+          "status": "Final",
+          "forfeit": null,
+          "winner": null,
+          "method": null,
+          "mode": "live",
+          "quick": null,
+          "fallTime": ""
+        }
+      },
+      "expected": {
+        "record": true,
+        "result": null,
+        "method": null,
+        "period": null,
+        "pointsFor": null,
+        "pointsAgainst": null,
+        "matchTime": "00:00:00",
+        "breakdown": false,
+        "errors": 1
+      }
+    },
+    {
+      "name": "quick decision becomes a minor decision",
+      "sheet": {
+        "tournament": "BCPS JV Invitational",
+        "matchDate": "2026-01-10",
+        "opponentSchool": "Dulaney",
+        "opponentSchoolId": null,
+        "bout": {
+          "weight": 145,
+          "wrestlerId": 7,
+          "wrestler": "J. Smith",
+          "opponent": "F. Kakos",
+          "events": [],
+          "status": "Final",
+          "forfeit": null,
+          "winner": null,
+          "method": null,
+          "mode": "quick",
+          "quick": {
+            "winner": "ours",
+            "method": "Decision",
+            "period": "3",
+            "pointsFor": "5",
+            "pointsAgainst": "2"
+          },
+          "fallTime": ""
+        }
+      },
+      "expected": {
+        "record": true,
+        "result": "Win",
+        "method": "Minor Decision",
+        "period": "3rd",
+        "pointsFor": 5,
+        "pointsAgainst": 2,
+        "matchTime": "00:00:00",
+        "breakdown": false,
+        "errors": 0
+      }
+    },
+    {
+      "name": "quick decision with an 8-point margin becomes a major",
+      "sheet": {
+        "tournament": "BCPS JV Invitational",
+        "matchDate": "2026-01-10",
+        "opponentSchool": "Dulaney",
+        "opponentSchoolId": null,
+        "bout": {
+          "weight": 145,
+          "wrestlerId": 7,
+          "wrestler": "J. Smith",
+          "opponent": "F. Kakos",
+          "events": [],
+          "status": "Final",
+          "forfeit": null,
+          "winner": null,
+          "method": null,
+          "mode": "quick",
+          "quick": {
+            "winner": "theirs",
+            "method": "Decision",
+            "period": "3",
+            "pointsFor": 2,
+            "pointsAgainst": 12
+          },
+          "fallTime": ""
+        }
+      },
+      "expected": {
+        "record": true,
+        "result": "Loss",
+        "method": "Major Decision",
+        "period": "3rd",
+        "pointsFor": 2,
+        "pointsAgainst": 12,
+        "matchTime": "00:00:00",
+        "breakdown": false,
+        "errors": 0
+      }
+    },
+    {
+      "name": "quick major with too small a margin is refused",
+      "sheet": {
+        "tournament": "BCPS JV Invitational",
+        "matchDate": "2026-01-10",
+        "opponentSchool": "Dulaney",
+        "opponentSchoolId": null,
+        "bout": {
+          "weight": 145,
+          "wrestlerId": 7,
+          "wrestler": "J. Smith",
+          "opponent": "F. Kakos",
+          "events": [],
+          "status": "Final",
+          "forfeit": null,
+          "winner": null,
+          "method": null,
+          "mode": "quick",
+          "quick": {
+            "winner": "ours",
+            "method": "Major Decision",
+            "period": "3",
+            "pointsFor": 6,
+            "pointsAgainst": 2
+          },
+          "fallTime": ""
+        }
+      },
+      "expected": {
+        "record": true,
+        "result": null,
+        "method": null,
+        "period": null,
+        "pointsFor": null,
+        "pointsAgainst": null,
+        "matchTime": "00:00:00",
+        "breakdown": false,
+        "errors": 1
+      }
+    },
+    {
+      "name": "quick decision of 15 is a tech fall, not a decision",
+      "sheet": {
+        "tournament": "BCPS JV Invitational",
+        "matchDate": "2026-01-10",
+        "opponentSchool": "Dulaney",
+        "opponentSchoolId": null,
+        "bout": {
+          "weight": 145,
+          "wrestlerId": 7,
+          "wrestler": "J. Smith",
+          "opponent": "F. Kakos",
+          "events": [],
+          "status": "Final",
+          "forfeit": null,
+          "winner": null,
+          "method": null,
+          "mode": "quick",
+          "quick": {
+            "winner": "ours",
+            "method": "Decision",
+            "period": "3",
+            "pointsFor": 17,
+            "pointsAgainst": 2
+          },
+          "fallTime": ""
+        }
+      },
+      "expected": {
+        "record": true,
+        "result": null,
+        "method": null,
+        "period": null,
+        "pointsFor": null,
+        "pointsAgainst": null,
+        "matchTime": "00:00:00",
+        "breakdown": false,
+        "errors": 1
+      }
+    },
+    {
+      "name": "quick tech fall keeps its time",
+      "sheet": {
+        "tournament": "BCPS JV Invitational",
+        "matchDate": "2026-01-10",
+        "opponentSchool": "Dulaney",
+        "opponentSchoolId": null,
+        "bout": {
+          "weight": 145,
+          "wrestlerId": 7,
+          "wrestler": "J. Smith",
+          "opponent": "F. Kakos",
+          "events": [],
+          "status": "Final",
+          "forfeit": null,
+          "winner": null,
+          "method": null,
+          "mode": "quick",
+          "quick": {
+            "winner": "ours",
+            "method": "Tech Fall",
+            "period": "2",
+            "pointsFor": 17,
+            "pointsAgainst": 2
+          },
+          "fallTime": "4:10"
+        }
+      },
+      "expected": {
+        "record": true,
+        "result": "Win",
+        "method": "Tech Fall",
+        "period": "2nd",
+        "pointsFor": 17,
+        "pointsAgainst": 2,
+        "matchTime": "00:04:10",
+        "breakdown": false,
+        "errors": 0
+      }
+    },
+    {
+      "name": "quick win where the loser is ahead is refused",
+      "sheet": {
+        "tournament": "BCPS JV Invitational",
+        "matchDate": "2026-01-10",
+        "opponentSchool": "Dulaney",
+        "opponentSchoolId": null,
+        "bout": {
+          "weight": 145,
+          "wrestlerId": 7,
+          "wrestler": "J. Smith",
+          "opponent": "F. Kakos",
+          "events": [],
+          "status": "Final",
+          "forfeit": null,
+          "winner": null,
+          "method": null,
+          "mode": "quick",
+          "quick": {
+            "winner": "ours",
+            "method": "Decision",
+            "period": "3",
+            "pointsFor": 2,
+            "pointsAgainst": 5
+          },
+          "fallTime": ""
+        }
+      },
+      "expected": {
+        "record": true,
+        "result": null,
+        "method": null,
+        "period": null,
+        "pointsFor": null,
+        "pointsAgainst": null,
+        "matchTime": "00:00:00",
+        "breakdown": false,
+        "errors": 1
+      }
+    },
+    {
+      "name": "quick pin without a score",
+      "sheet": {
+        "tournament": "BCPS JV Invitational",
+        "matchDate": "2026-01-10",
+        "opponentSchool": "Dulaney",
+        "opponentSchoolId": null,
+        "bout": {
+          "weight": 145,
+          "wrestlerId": 7,
+          "wrestler": "J. Smith",
+          "opponent": "F. Kakos",
+          "events": [],
+          "status": "Final",
+          "forfeit": null,
+          "winner": null,
+          "method": null,
+          "mode": "quick",
+          "quick": {
+            "winner": "theirs",
+            "method": "Pin",
+            "period": "1",
+            "pointsFor": "",
+            "pointsAgainst": ""
+          },
+          "fallTime": "0:58"
+        }
+      },
+      "expected": {
+        "record": true,
+        "result": "Loss",
+        "method": "Pin",
+        "period": "1st",
+        "pointsFor": null,
+        "pointsAgainst": null,
+        "matchTime": "00:00:58",
+        "breakdown": false,
+        "errors": 0
+      }
+    },
+    {
+      "name": "quick pin with half a score is refused",
+      "sheet": {
+        "tournament": "BCPS JV Invitational",
+        "matchDate": "2026-01-10",
+        "opponentSchool": "Dulaney",
+        "opponentSchoolId": null,
+        "bout": {
+          "weight": 145,
+          "wrestlerId": 7,
+          "wrestler": "J. Smith",
+          "opponent": "F. Kakos",
+          "events": [],
+          "status": "Final",
+          "forfeit": null,
+          "winner": null,
+          "method": null,
+          "mode": "quick",
+          "quick": {
+            "winner": "ours",
+            "method": "Pin",
+            "period": "2",
+            "pointsFor": 4,
+            "pointsAgainst": ""
+          },
+          "fallTime": ""
+        }
+      },
+      "expected": {
+        "record": true,
+        "result": null,
+        "method": null,
+        "period": null,
+        "pointsFor": null,
+        "pointsAgainst": null,
+        "matchTime": "00:00:00",
+        "breakdown": false,
+        "errors": 1
+      }
+    },
+    {
+      "name": "quick result missing everything lists each problem",
+      "sheet": {
+        "tournament": "BCPS JV Invitational",
+        "matchDate": "2026-01-10",
+        "opponentSchool": "Dulaney",
+        "opponentSchoolId": null,
+        "bout": {
+          "weight": 145,
+          "wrestlerId": 7,
+          "wrestler": "J. Smith",
+          "opponent": "F. Kakos",
+          "events": [],
+          "status": "Final",
+          "forfeit": null,
+          "winner": null,
+          "method": null,
+          "mode": "quick",
+          "quick": {},
+          "fallTime": ""
+        }
+      },
+      "expected": {
+        "record": true,
+        "result": null,
+        "method": null,
+        "period": null,
+        "pointsFor": null,
+        "pointsAgainst": null,
+        "matchTime": "00:00:00",
+        "breakdown": false,
+        "errors": 3
+      }
+    },
+    {
+      "name": "quick result on a 2-point era date still works",
+      "sheet": {
+        "tournament": "BCPS JV Invitational",
+        "matchDate": "2023-02-18",
+        "opponentSchool": "Dulaney",
+        "opponentSchoolId": null,
+        "bout": {
+          "weight": 145,
+          "wrestlerId": 7,
+          "wrestler": "J. Smith",
+          "opponent": "F. Kakos",
+          "events": [],
+          "status": "Final",
+          "forfeit": null,
+          "winner": null,
+          "method": null,
+          "mode": "quick",
+          "quick": {
+            "winner": "ours",
+            "method": "Default",
+            "period": "SV",
+            "pointsFor": 4,
+            "pointsAgainst": 4
+          },
+          "fallTime": ""
+        }
+      },
+      "expected": {
+        "record": true,
+        "result": "Win",
+        "method": "Default",
+        "period": "OT1",
+        "pointsFor": 4,
+        "pointsAgainst": 4,
+        "matchTime": "00:00:00",
+        "breakdown": false,
+        "errors": 0
+      }
+    },
+    {
+      "name": "live 2-point era takedowns are taken as written",
+      "sheet": {
+        "tournament": "BCPS JV Invitational",
+        "matchDate": "2023-02-18",
+        "opponentSchool": "Dulaney",
+        "opponentSchoolId": null,
+        "bout": {
+          "weight": 145,
+          "wrestlerId": 7,
+          "wrestler": "J. Smith",
+          "opponent": "F. Kakos",
+          "events": [
+            {
+              "id": "e0",
+              "side": "ours",
+              "period": "1",
+              "token": "T2"
+            },
+            {
+              "id": "e1",
+              "side": "ours",
+              "period": "2",
+              "token": "T2"
+            }
+          ],
+          "status": "Final",
+          "forfeit": null,
+          "winner": null,
+          "method": null,
+          "mode": "live",
+          "quick": null,
+          "fallTime": ""
+        }
+      },
+      "expected": {
+        "record": true,
+        "result": "Win",
+        "method": "Minor Decision",
+        "period": "2nd",
+        "pointsFor": 4,
+        "pointsAgainst": 0,
+        "matchTime": "00:00:00",
+        "breakdown": true,
+        "errors": 0
+      }
+    }
+  ]
+}
