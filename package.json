@@ -10,7 +10,7 @@
         "start": "node dist/app.js",
         "dev": "nodemon",
         "build:test": "tsc -p tsconfig.test.json",
-        "test": "npm run build:test && node dist-test/scoring/scoring.test.js && node dist-test/auth/auth.test.js",
+        "test": "npm run build:test && node dist-test/scoring/scoring.test.js && node dist-test/scoring/tournamentBout.test.js && node dist-test/ingest/tournamentIngest.test.js && node dist-test/auth/auth.test.js",
         "test:auth": "npm run build:test && node dist-test/auth/auth.test.js",
         "test:conformance": "npm run build:test && node dist-test/scoring/conformance.test.js",
         "conformance:generate": "npm run build:test && node dist-test/scoring/generateConformance.js",

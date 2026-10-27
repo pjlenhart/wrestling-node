@@ -3,6 +3,11 @@
  *
  * Reading is public; submitting and deleting go through `requireStaff`.
  *
+ * Two kinds of sheet share the table. A dual is fourteen bouts against one
+ * school. A tournament sheet is a single bout, and is told apart by carrying
+ * the individual team match id from the moment it is stored -- which is also
+ * simply true, since that is the team match its bout is recorded under.
+ *
  * A submitted sheet is stored before anything is written to the match tables,
  * and it is stored whether or not that write succeeds. Somebody scored a whole
  * dual to produce it -- losing it because a wrestler was missing from the
@@ -15,6 +20,14 @@ import { RowDataPacket, ResultSetHeader } from 'mysql2';
 import { pool, withTransaction } from '../database/pool';
 import { LiveSheet, deriveLiveSheet } from '../scoring/liveBout';
 import { commitDual, IngestError } from '../ingest/ingest';
+import {
+    INDIVIDUAL_TEAM_MATCH_ID,
+    TournamentBout,
+    TournamentResult,
+    TournamentSheet,
+    deriveTournamentBout,
+} from '../scoring/tournamentBout';
+import { commitTournamentBout } from '../ingest/tournamentIngest';
 import requireStaff from '../middleware/requireStaff';
 
 const express = require('express');
@@ -124,17 +137,172 @@ function rowToSheet(row: RowDataPacket): LiveSheet {
     };
 }
 
+/** The same checks as a dual, for a sheet that is one bout. */
+function validateTournament(body: any): string[] {
+    const problems: string[] = [];
+
+    if (!body || typeof body !== 'object') {
+        return ['no scoresheet was sent'];
+    }
+    if (!body.matchDate || !/^\d{4}-\d{2}-\d{2}$/.test(String(body.matchDate))) {
+        problems.push('matchDate must be a date like 2026-01-08');
+    }
+    if (!String(body.tournament || '').trim()) {
+        problems.push('tournament is required');
+    }
+    if (!body.bout || typeof body.bout !== 'object') {
+        problems.push('bout is required');
+    } else if (typeof body.bout.weight !== 'number') {
+        problems.push('the bout needs a numeric weight');
+    }
+
+    return problems;
+}
+
+function tournamentReport(derived: TournamentResult): string {
+    const lines: string[] = [];
+
+    if (!derived.record) {
+        lines.push('We forfeited: nothing is recorded for our wrestler.');
+    } else if (derived.result) {
+        const score =
+            derived.pointsFor !== null && derived.pointsAgainst !== null
+                ? ` ${derived.pointsFor}-${derived.pointsAgainst}`
+                : '';
+        lines.push(`Result: ${derived.result} by ${derived.method}${score} (${derived.period})`);
+        lines.push(derived.breakdown ? 'Full scoring breakdown recorded.' : 'Result only, no breakdown.');
+    }
+
+    for (const error of derived.errors) lines.push(`ERROR: ${error}`);
+    for (const warning of derived.warnings) lines.push(`WARNING: ${warning}`);
+
+    return lines.join('\n');
+}
+
+/**
+ * The tournament's name rides along inside the bout.
+ *
+ * The table has no column for it, and the bout is the thing that belongs to
+ * the tournament, so that is where it is kept.
+ */
+function storedTournamentBouts(sheet: TournamentSheet): string {
+    return JSON.stringify([{ ...sheet.bout, tournament: sheet.tournament }]);
+}
+
+async function storeTournamentSheet(
+    conn: PoolConnection,
+    sheet: TournamentSheet,
+    derived: TournamentResult,
+    report: string,
+    submittedBy: string,
+): Promise<number> {
+    const [result] = await conn.query<ResultSetHeader>(
+        `INSERT INTO wrestling_livescoresheet (
+            match_date, opponent_school, school_id, venue, starting_weight, bouts,
+            our_score, opponent_score, official_our_score, official_opponent_score,
+            status, report, notes, submitted_by, submitted_at, team_match_id
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), ?)`,
+        [
+            sheet.matchDate,
+            sheet.opponentSchool || '',
+            sheet.opponentSchoolId || null,
+            // Home and away mean nothing for one bout at a tournament.
+            null,
+            null,
+            storedTournamentBouts(sheet),
+            // Team score. A single bout has none.
+            null,
+            null,
+            null,
+            null,
+            STATUS_SUBMITTED,
+            report,
+            '',
+            submittedBy,
+            INDIVIDUAL_TEAM_MATCH_ID,
+        ],
+    );
+    return result.insertId;
+}
+
+function rowToTournamentSheet(row: RowDataPacket): TournamentSheet {
+    const bouts = typeof row.bouts === 'string' ? JSON.parse(row.bouts) : row.bouts;
+    const { tournament, ...bout } = (bouts && bouts[0]) || {};
+    return {
+        tournament: tournament || '',
+        matchDate:
+            row.match_date instanceof Date
+                ? row.match_date.toISOString().slice(0, 10)
+                : String(row.match_date),
+        opponentSchool: row.opponent_school,
+        opponentSchoolId: row.school_id,
+        bout: bout as TournamentBout,
+    };
+}
+
+const isTournamentRow = (row: RowDataPacket) => Number(row.team_match_id) === INDIVIDUAL_TEAM_MATCH_ID;
+
+/**
+ * Write a stored tournament sheet's bout and mark the sheet recorded.
+ *
+ * The match id goes back into the stored bout, since the sheet's own
+ * `team_match_id` is the shared placeholder and says nothing about which match
+ * this sheet produced.
+ */
+async function commitStoredTournament(
+    conn: PoolConnection,
+    scoresheetId: number,
+    sheet: TournamentSheet,
+    derived: TournamentResult,
+) {
+    const committed = await commitTournamentBout(conn, sheet, derived);
+    const recorded: TournamentSheet = { ...sheet, bout: { ...sheet.bout, matchId: committed.matchId } };
+
+    await conn.query(
+        `UPDATE wrestling_livescoresheet
+         SET status = ?, committed_at = NOW(), bouts = ?, report = ?
+         WHERE scoresheet_id = ?`,
+        [STATUS_COMMITTED, storedTournamentBouts(recorded), tournamentReport(derived), scoresheetId],
+    );
+    return committed;
+}
+
 /** List every submitted sheet, newest first. Public. */
 liveScoresheetRouter.get('/', async (_req: Request, res: Response) => {
     try {
         const [rows] = await pool.query<RowDataPacket[]>(
             `SELECT scoresheet_id, match_date, opponent_school, venue, our_score, opponent_score,
                     official_our_score, official_opponent_score, status, submitted_by, submitted_at,
-                    committed_at, team_match_id
+                    committed_at, team_match_id, bouts
              FROM wrestling_livescoresheet
              ORDER BY match_date DESC, scoresheet_id DESC`,
         );
-        res.json(rows);
+
+        // The bouts are only read to describe a tournament sheet's one bout;
+        // a dual's fourteen stay out of the list.
+        res.json(
+            rows.map(({ bouts, ...row }) => {
+                if (!isTournamentRow(row as RowDataPacket)) return { ...row, kind: 'dual' };
+
+                const sheet = rowToTournamentSheet({ ...row, bouts } as RowDataPacket);
+                const derived = deriveTournamentBout(sheet);
+                return {
+                    ...row,
+                    kind: 'tournament',
+                    tournament: sheet.tournament,
+                    weight: sheet.bout.weight,
+                    wrestler: sheet.bout.wrestler,
+                    opponent: sheet.bout.opponent,
+                    match_id: sheet.bout.matchId ?? null,
+                    recorded: derived.record,
+                    result: derived.result,
+                    method: derived.method,
+                    period: derived.period,
+                    points_for: derived.pointsFor,
+                    points_against: derived.pointsAgainst,
+                };
+            }),
+        );
     } catch (err) {
         res.status(500).json({ error: (err as Error).message });
     }
@@ -155,6 +323,7 @@ liveScoresheetRouter.get('/:id', async (req: Request, res: Response) => {
         const row = rows[0];
         res.json({
             ...row,
+            kind: isTournamentRow(row) ? 'tournament' : 'dual',
             bouts: typeof row.bouts === 'string' ? JSON.parse(row.bouts) : row.bouts,
         });
     } catch (err) {
@@ -225,6 +394,59 @@ liveScoresheetRouter.post('/', requireStaff, async (req: Request, res: Response)
     }
 });
 
+/**
+ * Submit a scored tournament bout.
+ *
+ * The same two steps as a dual, for the same reason: the sheet is stored
+ * first, so a bout that cannot be recorded -- a wrestler missing from the
+ * roster, say -- is still kept and can be committed once that is fixed.
+ */
+liveScoresheetRouter.post('/tournament', requireStaff, async (req: Request, res: Response) => {
+    const problems = validateTournament(req.body);
+    if (problems.length) {
+        res.status(400).json({ error: 'this scoresheet is not usable', problems });
+        return;
+    }
+
+    const sheet: TournamentSheet = {
+        tournament: String(req.body.tournament).trim(),
+        matchDate: req.body.matchDate,
+        opponentSchool: String(req.body.opponentSchool || '').trim(),
+        opponentSchoolId: req.body.opponentSchoolId ?? null,
+        bout: req.body.bout,
+    };
+    const submittedBy = String((req as any).user?.username || req.body.submittedBy || '');
+
+    const derived = deriveTournamentBout(sheet);
+    const report = tournamentReport(derived);
+
+    let scoresheetId: number;
+    try {
+        scoresheetId = await withTransaction((conn) =>
+            storeTournamentSheet(conn, sheet, derived, report, submittedBy),
+        );
+    } catch (err) {
+        res.status(500).json({ error: `the scoresheet could not be saved: ${(err as Error).message}` });
+        return;
+    }
+
+    try {
+        const result = await withTransaction((conn) =>
+            commitStoredTournament(conn, scoresheetId, sheet, derived),
+        );
+        res.status(201).json({ scoresheetId, status: STATUS_COMMITTED, report, ...result });
+    } catch (err) {
+        const status = err instanceof IngestError ? err.status : 500;
+        res.status(status).json({
+            error: (err as Error).message,
+            // The sheet is safe even though nothing was recorded.
+            scoresheetId,
+            status: STATUS_SUBMITTED,
+            report,
+        });
+    }
+});
+
 /** Retry the match-table write for a sheet that was stored but not committed. */
 liveScoresheetRouter.post('/:id/commit', requireStaff, async (req: Request, res: Response) => {
     try {
@@ -238,6 +460,18 @@ liveScoresheetRouter.post('/:id/commit', requireStaff, async (req: Request, res:
         }
         if (rows[0].status === STATUS_COMMITTED) {
             res.status(409).json({ error: 'this scoresheet is already recorded' });
+            return;
+        }
+
+        // A tournament sheet must never reach the dual path: it would be
+        // written as a team match of its own.
+        if (isTournamentRow(rows[0])) {
+            const sheet = rowToTournamentSheet(rows[0]);
+            const derived = deriveTournamentBout(sheet);
+            const result = await withTransaction((conn) =>
+                commitStoredTournament(conn, Number(req.params.id), sheet, derived),
+            );
+            res.json({ scoresheetId: Number(req.params.id), status: STATUS_COMMITTED, ...result });
             return;
         }
 
